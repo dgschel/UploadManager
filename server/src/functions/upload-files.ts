@@ -1,28 +1,27 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
 
+import { FileUploader } from "../models/FileUploader";
+import { FilesValidator } from "../services/FilesValidator";
+import { FormDataFileUploader } from "../services/FormDataFileUploader";
+
 export async function uploadFiles(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
   context.log(`Http function processed request for url "${request.url}"`);
 
   try {
     const formData = await request.formData();
 
-    if (!formData.has("files")) {
+    if (!FilesValidator.hasFiles(formData)) {
       return { body: `Specify a key with name 'files'` };
     }
 
     const formDataValues = formData.getAll("files");
 
-    if (formDataValues.length === 0) {
+    if (!FilesValidator.validateFilesPresence(formDataValues)) {
       return { body: `Upload atleast one file` };
     }
 
-    let files: File[] = [];
-
-    for (const file of formDataValues) {
-      if (file instanceof File) {
-        files.push(file);
-      }
-    }
+    const fileUploader: FileUploader = new FormDataFileUploader();
+    const files = await fileUploader.uploadFiles(formData);
 
     context.log(files);
   } catch (error) {
