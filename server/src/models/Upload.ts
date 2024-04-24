@@ -1,5 +1,3 @@
-import { FormData } from "undici";
-
 export interface Upload {
-  upload(formData: FormData): Promise<File[]>;
+  upload(files: File[]): Promise<File[]>;
 }
