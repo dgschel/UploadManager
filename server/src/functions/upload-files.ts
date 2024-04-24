@@ -1,15 +1,11 @@
-import { app, input, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
+import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
 
 import { Upload } from "../models/Upload";
 import { Config } from "../models/Config";
 import { AzureFileUploader } from "../services/AzureFileUploader";
 import { FormDataValidator } from "../services/FormDataValidator";
 import { MimeTypesValidator } from "../services/MimeTypesValidator";
-
-const configMimeTypesBlobInput = input.storageBlob({
-  path: "configs/mime-types.json",
-  connection: "AzureWebJobsStorage",
-});
+import { configMimeTypesBlobInput } from "../bindings/blobStorage";
 
 export async function uploadFiles(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
   context.log(`Http function processed request for url "${request.url}"`);
