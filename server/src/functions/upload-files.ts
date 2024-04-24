@@ -11,6 +11,9 @@ export async function uploadFiles(request: HttpRequest, context: InvocationConte
   context.log(`Http function processed request for url "${request.url}"`);
 
   try {
+    // Retrieve the config file from the blob storage input binding
+    // The config file contains the allowed MIME-Types to upload files
+    // The type is either undefined or a custom type Config
     const config = context.extraInputs.get(configMimeTypesBlobInput);
 
     if (!config) {
@@ -29,13 +32,20 @@ export async function uploadFiles(request: HttpRequest, context: InvocationConte
       return { body: `Upload atleast one file` };
     }
 
-    const azureFileUploader: Upload = new AzureFileUploader();
-    const files = await azureFileUploader.upload(formData);
+    const files: File[] = formDataValues.map((file) => {
+      if (file instanceof File) {
+        return file;
+      }
+    });
 
     const mimeTypesValidator = new MimeTypesValidator(config as Config);
     const allowedFilesToUpload = files.filter(mimeTypesValidator.hasAllowedMimeType);
+    context.log(allowedFilesToUpload);
+    
+    const azureFileUploader: Upload = new AzureFileUploader("uploads", context);
+    const uploadedFiles = await azureFileUploader.upload(allowedFilesToUpload);
 
-    context.log({ files, allowedFilesToUpload });
+    context.log(uploadedFiles);
   } catch (error) {
     context.error(error);
     return { body: `Specify a body to upload files` };
