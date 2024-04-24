@@ -1,18 +1,41 @@
-import { FormData } from "undici";
+import { BlobServiceClient, BlockBlobClient } from "@azure/storage-blob";
+import { InvocationContext } from "@azure/functions";
 import { Upload } from "../models/Upload";
 
 export class AzureFileUploader implements Upload {
-  async upload(formData: FormData): Promise<File[]> {
-    const files: File[] = [];
+  private _blobServiceClient: BlobServiceClient;
+  private _containerName: string;
+  private _context: InvocationContext;
 
-    const formDataValues = formData.getAll("files");
+  constructor(containerName: string, context: InvocationContext) {
+    this._blobServiceClient = BlobServiceClient.fromConnectionString(process.env.AzureWebJobsStorage);
+    this._containerName = containerName;
+    this._context = context;
+  }
 
-    for (const file of formDataValues) {
-      if (file instanceof File) {
-        files.push(file);
+  private async getBlobClient(fileName: string): Promise<BlockBlobClient> {
+    const containerClient = this._blobServiceClient.getContainerClient(this._containerName);
+    await containerClient.createIfNotExists();
+    const blockBlobClient = containerClient.getBlockBlobClient(fileName);
+
+    return blockBlobClient;
+  }
+
+  async upload(files: File[]): Promise<File[]> {
+    const uploadPromises = files.map(async (file) => {
+      try {
+        const blockBlobClient = await this.getBlobClient(file.name);
+        const buffer = await file.arrayBuffer();
+        await blockBlobClient.uploadData(buffer, { blobHTTPHeaders: { blobContentType: file.type } });
+
+        this._context.log(`Uploaded file ${file.name} to container ${this._containerName}`);
+
+        return file;
+      } catch (error) {
+        this._context.error(`Failed to upload file ${file.name} to container ${this._containerName}: ${error}`);
       }
-    }
+    });
 
-    return files;
+    return await Promise.all(uploadPromises);
   }
 }
