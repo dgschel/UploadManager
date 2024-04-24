@@ -1,4 +1,4 @@
-import { Config } from "../models/Config";
+import { Config } from "../models/config";
 
 export class MimeTypesValidator {
   private _config: Config;

@@ -1,9 +1,8 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
 
-import { Upload } from "../models/Upload";
-import { Config } from "../models/Config";
-import { AzureFileUploader } from "../services/AzureFileUploader";
-import { MimeTypesValidator } from "../services/MimeTypesValidator";
+import { Config } from "../models/config";
+import { AzureFileUploader } from "../services/azure-file-uploader";
+import { MimeTypesValidator } from "../services/mime-type-validator";
 import { configMimeTypesBlobInput } from "../bindings/blobStorage";
 import { validateFormData } from "../utils/validate-form-data";
 import { getFiles } from "../utils/file";
@@ -29,7 +28,7 @@ export async function uploadFiles(request: HttpRequest, context: InvocationConte
     const allowedFilesToUpload = files.filter(mimeTypesValidator.hasAllowedMimeType);
     context.log("Allowed Files to upload", allowedFilesToUpload);
 
-    const azureFileUploader: Upload = new AzureFileUploader("uploads", context);
+    const azureFileUploader = new AzureFileUploader("uploads", context);
     const uploadedFiles = await azureFileUploader.upload(allowedFilesToUpload);
 
     context.log("Uploaded Files to Azure", uploadedFiles);
