@@ -1,8 +1,8 @@
 import { FormData } from "undici";
-import { FileUploader } from "../models/FileUploader";
+import { Upload } from "../models/Upload";
 
-export class FormDataFileUploader implements FileUploader {
-  async uploadFiles(formData: FormData): Promise<File[]> {
+export class AzureFileUploader implements Upload {
+  async upload(formData: FormData): Promise<File[]> {
     const files: File[] = [];
 
     const formDataValues = formData.getAll("files");

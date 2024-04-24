@@ -1,6 +1,6 @@
 import { FormData } from "undici";
 
-export class FilesValidator {
+export class FormDataValidator {
   static hasFiles(formData: FormData): boolean {
     return formData.has("files");
   }

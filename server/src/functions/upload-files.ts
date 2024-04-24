@@ -1,9 +1,9 @@
 import { app, input, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
 
-import { FileUploader } from "../models/FileUploader";
-import { FilesValidator } from "../services/FilesValidator";
-import { FormDataFileUploader } from "../services/FormDataFileUploader";
+import { Upload } from "../models/Upload";
 import { Config } from "../models/Config";
+import { AzureFileUploader } from "../services/AzureFileUploader";
+import { FormDataValidator } from "../services/FormDataValidator";
 import { MimeTypesValidator } from "../services/MimeTypesValidator";
 
 const configMimeTypesBlobInput = input.storageBlob({
@@ -23,18 +23,18 @@ export async function uploadFiles(request: HttpRequest, context: InvocationConte
 
     const formData = await request.formData();
 
-    if (!FilesValidator.hasFiles(formData)) {
+    if (!FormDataValidator.hasFiles(formData)) {
       return { body: `Specify a key with name 'files'` };
     }
 
     const formDataValues = formData.getAll("files");
 
-    if (!FilesValidator.validateFilesPresence(formDataValues)) {
+    if (!FormDataValidator.validateFilesPresence(formDataValues)) {
       return { body: `Upload atleast one file` };
     }
 
-    const fileUploader: FileUploader = new FormDataFileUploader();
-    const files = await fileUploader.uploadFiles(formData);
+    const azureFileUploader: Upload = new AzureFileUploader();
+    const files = await azureFileUploader.upload(formData);
 
     const mimeTypesValidator = new MimeTypesValidator(config as Config);
     const allowedFilesToUpload = files.filter(mimeTypesValidator.hasAllowedMimeType);
