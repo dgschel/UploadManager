@@ -37,7 +37,7 @@ export async function uploadFiles(request: HttpRequest, context: InvocationConte
     return { body: error.message };
   }
 
-  return { body: `Hello, world!` };
+  return { body: `Uploading files to Azure was successful` };
 }
 
 app.http("upload-files", {
