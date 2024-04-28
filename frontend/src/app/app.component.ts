@@ -1,8 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
-import { MsalService } from '@azure/msal-angular';
+import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
+import { Subject, filter, takeUntil } from 'rxjs';
 
+import {
+  AuthenticationResult,
+  EventMessage,
+  EventType,
+} from '@azure/msal-browser';
 import { HeaderComponent } from './core/components/header/header.component';
 
 @Component({
@@ -12,10 +18,15 @@ import { HeaderComponent } from './core/components/header/header.component';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+  private readonly _destroying$ = new Subject<void>();
+
   title = 'Upload Manager';
 
-  constructor(private authService: MsalService) {}
+  constructor(
+    private authService: MsalService,
+    private msalBroadcastService: MsalBroadcastService
+  ) {}
 
   ngOnInit(): void {
     // MSAL v3.x requires initialization of the application object
@@ -26,5 +37,25 @@ export class AppComponent implements OnInit {
         console.error('Error intializing MSAL: ', error);
       },
     });
+
+    // MSAL events are managed by the MSAL Broadcast service
+    // The events are available by subscribing to the msalSubject$
+    this.msalBroadcastService.msalSubject$
+      .pipe(
+        filter(
+          (msg: EventMessage) => msg.eventType === EventType.LOGIN_SUCCESS
+        ),
+        takeUntil(this._destroying$)
+      )
+      .subscribe((result: EventMessage) => {
+        let payload = result.payload as AuthenticationResult;
+        this.authService.instance.setActiveAccount(payload.account);
+        console.log('Payload', payload);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroying$.next(undefined);
+    this._destroying$.complete();
   }
 }
