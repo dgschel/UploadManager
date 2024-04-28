@@ -2,7 +2,11 @@ import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { MSAL_INSTANCE, MsalService } from '@azure/msal-angular';
+import {
+  MSAL_INSTANCE,
+  MsalBroadcastService,
+  MsalService,
+} from '@azure/msal-angular';
 import {
   BrowserCacheLocation,
   IPublicClientApplication,
@@ -51,5 +55,6 @@ export const appConfig: ApplicationConfig = {
       useFactory: MSALInstanceFactory, // This is the factory that will create the instance
     },
     MsalService, // This is the service that will be used to interact with the MSAL instance
+    MsalBroadcastService,
   ],
 };
