@@ -15,13 +15,7 @@
         class="text-sm font-semibold leading-6 text-gray-900"
         >Dateien hochladen</a
       >
-      <button
-        type="button"
-        class="text-sm font-semibold leading-6 text-gray-900"
-        (click)="login()"
-      >
-        Anmelden<span class="ml-1" aria-hidden="true">&rarr;</span>
-      </button>
+      @if (isAuthenticated) {
       <button
         type="button"
         class="text-sm font-semibold leading-6 text-gray-900"
@@ -29,6 +23,15 @@
       >
         Logout
       </button>
+      } @else {
+      <button
+        type="button"
+        class="text-sm font-semibold leading-6 text-gray-900"
+        (click)="login()"
+      >
+        Anmelden<span class="ml-1" aria-hidden="true">&rarr;</span>
+      </button>
+      }
     </div>
   </nav>
 </header>
