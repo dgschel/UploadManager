@@ -3,13 +3,17 @@ import { provideRouter } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 
 import {
+  MSAL_GUARD_CONFIG,
   MSAL_INSTANCE,
   MsalBroadcastService,
+  MsalGuard,
+  MsalGuardConfiguration,
   MsalService,
 } from '@azure/msal-angular';
 import {
   BrowserCacheLocation,
   IPublicClientApplication,
+  InteractionType,
   LogLevel,
   PublicClientApplication,
 } from '@azure/msal-browser';
@@ -46,6 +50,16 @@ export function MSALInstanceFactory(): IPublicClientApplication {
   });
 }
 
+export function MSALGuardConfigFactory(): MsalGuardConfiguration {
+  return {
+    interactionType: InteractionType.Redirect,
+    authRequest: {
+      scopes: ['openid'], // This is the scope that the application will request from the user. It is defined in the registered application in Azure AD B2C under the API permissions
+    },
+    loginFailedRoute: '/login-failed',
+  };
+}
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
@@ -54,7 +68,12 @@ export const appConfig: ApplicationConfig = {
       provide: MSAL_INSTANCE, // This is the token that the MSAL service will use to create the instance
       useFactory: MSALInstanceFactory, // This is the factory that will create the instance
     },
+    {
+      provide: MSAL_GUARD_CONFIG,
+      useFactory: MSALGuardConfigFactory,
+    },
     MsalService, // This is the service that will be used to interact with the MSAL instance
-    MsalBroadcastService,
+    MsalBroadcastService, // This is the service that will be used to broadcast the MSAL events
+    MsalGuard, // This is the guard that will be used to protect the routes
   ],
 };
