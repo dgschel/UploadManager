@@ -1,0 +1,10 @@
+<h3 class="text-lg font-semibold">Demo Auth Response</h3>
+
+@if (account(); as account) {
+<p>Willkommen {{ account.name }}!</p>
+} @else if (!account() && !error) {
+<p>Nichts zum anzeigen</p>
+} @else {
+<p>Fehler in der Authentizifierung</p>
+<p>{{ error?.message }}</p>
+}
