@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { UploadFilesComponent } from './components/upload-files/upload-files.component';
 
 @Component({
@@ -8,4 +9,8 @@ import { UploadFilesComponent } from './components/upload-files/upload-files.com
   templateUrl: './upload.component.html',
   styleUrl: './upload.component.scss',
 })
-export class UploadComponent {}
+export class UploadComponent {
+  onSelectedFiles(files: File[]) {
+    console.log('Upload Component', files);
+  }
+}

@@ -1,1 +1,9 @@
-<app-upload-files></app-upload-files>
+<div class="max-w-screen-sm mx-auto">
+  <app-upload-files (selectedFiles)="onSelectedFiles($event)"></app-upload-files>
+  <button
+    type="submit"
+    class="transition duration-200 rounded-md bg-prussian-blue px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-picton-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-prussian-blue"
+  >
+    Dateien hochladen
+  </button>
+</div>
