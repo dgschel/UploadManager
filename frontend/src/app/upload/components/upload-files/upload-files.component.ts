@@ -1,4 +1,11 @@
-import { Component, WritableSignal, signal, HostListener } from '@angular/core';
+import {
+  Component,
+  WritableSignal,
+  signal,
+  HostListener,
+  output,
+  OutputEmitterRef,
+} from '@angular/core';
 import { NgClass } from '@angular/common';
 
 import { FilePropertyComponent } from '../file-property/file-property.component';
@@ -14,10 +21,14 @@ export class UploadFilesComponent {
   files: WritableSignal<File[]> = signal<File[]>([]);
   isDragging: WritableSignal<boolean> = signal<boolean>(false);
 
+  // Developer Preview
+  selectedFiles: OutputEmitterRef<File[]> = output<File[]>();
+
   @HostListener('change', ['$event.target.files'])
   onChangedFiles(files: File[]) {
     this.isDragging.set(false);
     this.files.set(Array.from(files));
+    this.selectedFiles.emit(files);
   }
 
   @HostListener('dragover', ['$event'])
