@@ -1,4 +1,4 @@
-import { Component, WritableSignal, signal } from '@angular/core';
+import { Component, WritableSignal, signal, HostListener } from '@angular/core';
 import { NgClass } from '@angular/common';
 
 import { FilePropertyComponent } from '../file-property/file-property.component';
@@ -14,30 +14,29 @@ export class UploadFilesComponent {
   files: WritableSignal<Array<File>> = signal<Array<File>>([]);
   isDragging: WritableSignal<boolean> = signal<boolean>(false);
 
-  onChangedFiles(event: Event) {
-    const target = event.target as HTMLInputElement;
-    if (target.files) {
-      this.files.set(Array.from(target.files));
-    }
+  @HostListener('change', ['$event.target.files'])
+  onChangedFiles(files: File[]) {
     this.isDragging.set(false);
-
-    console.log('Files', this.files());
+    this.files.set(Array.from(files));
   }
 
+  @HostListener('dragover', ['$event'])
   onDragOver(event: DragEvent) {
     event.preventDefault();
     this.isDragging.set(true);
   }
 
+  @HostListener('drop', ['$event'])
   onDrop(event: DragEvent) {
     event.preventDefault();
-    console.log(event.dataTransfer?.files);
-    if (event.dataTransfer?.files) {
-      this.files.set(Array.from(event.dataTransfer.files));
-    }
-    this.isDragging.set(true);
+
+    if (!event.dataTransfer) return;
+
+    this.files.set(Array.from(event.dataTransfer.files));
+    this.isDragging.set(false);
   }
 
+  @HostListener('dragleave', ['$event'])
   onDragLeave(event: DragEvent) {
     event.preventDefault();
     this.isDragging.set(false);
