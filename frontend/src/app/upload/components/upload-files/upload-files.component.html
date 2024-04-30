@@ -3,10 +3,6 @@
   [ngClass]="{
     'outline-blue-400': isDragging()
   }"
-  (drop)="onDrop($event)"
-  (dragleave)="onDragLeave($event)"
-  (dragover)="onDragOver($event)"
-  (change)="onChangedFiles($event)"
   (click)="filesInput.click()"
 >
   <div class="flex flex-col items-center justify-center py-12 z-10">
@@ -35,7 +31,3 @@
     multiple
   />
 </div>
-
-@for (file of files(); track file.name) {
-<app-file-property [file]="file"></app-file-property>
-}
