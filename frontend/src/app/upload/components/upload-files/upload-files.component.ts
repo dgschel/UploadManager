@@ -32,8 +32,7 @@ export class UploadFilesComponent {
 
     if (!event.dataTransfer) return;
 
-    this.files.set(Array.from(event.dataTransfer.files));
-    this.isDragging.set(false);
+    this.onChangedFiles(Array.from(event.dataTransfer.files));
   }
 
   @HostListener('dragleave', ['$event'])
