@@ -8,12 +8,10 @@ import {
 } from '@angular/core';
 import { NgClass } from '@angular/common';
 
-import { FilePropertyComponent } from '../file-property/file-property.component';
-
 @Component({
   selector: 'app-upload-files',
   standalone: true,
-  imports: [NgClass, FilePropertyComponent],
+  imports: [NgClass],
   templateUrl: './upload-files.component.html',
   styleUrl: './upload-files.component.scss',
 })
