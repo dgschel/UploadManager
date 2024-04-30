@@ -11,7 +11,7 @@ import { FilePropertyComponent } from '../file-property/file-property.component'
   styleUrl: './upload-files.component.scss',
 })
 export class UploadFilesComponent {
-  files: WritableSignal<Array<File>> = signal<Array<File>>([]);
+  files: WritableSignal<File[]> = signal<File[]>([]);
   isDragging: WritableSignal<boolean> = signal<boolean>(false);
 
   @HostListener('change', ['$event.target.files'])
