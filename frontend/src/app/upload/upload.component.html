@@ -1,16 +1,23 @@
-<div class="flex flex-col gap-4 max-w-screen-sm mx-auto">
-  <app-upload-files
-    (selectedFiles)="handleFileSelection($event)"
-  ></app-upload-files>
-  <div>
-    @for (file of files(); track file.name) {
-    <app-file-property [file]="file"></app-file-property>
-    }
+<div class="relative h-[calc(100vh-5rem)]">
+  <div class="absolute inset-0 -z-10 -top-20 bg-gray-50"></div>
+  <div class="py-60 px-6">
+    <div
+      class="flex flex-col gap-4 relative p-6 bg-white rounded-xl shadow-sm max-w-screen-sm mx-auto"
+    >
+      <app-upload-files
+        (selectedFiles)="handleFileSelection($event)"
+      ></app-upload-files>
+      <div>
+        @for (file of files(); track file.name) {
+        <app-file-property [file]="file"></app-file-property>
+        }
+      </div>
+      <button
+        type="submit"
+        class="transition duration-200 self-end rounded-md bg-prussian-blue px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-picton-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-prussian-blue"
+      >
+        Dateien hochladen
+      </button>
+    </div>
   </div>
-  <button
-    type="submit"
-    class="transition duration-200 self-end rounded-md bg-prussian-blue px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-picton-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-prussian-blue"
-  >
-    Dateien hochladen
-  </button>
 </div>
