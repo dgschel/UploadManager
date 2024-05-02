@@ -23,10 +23,11 @@ export class UploadFilesComponent {
   selectedFiles: OutputEmitterRef<File[]> = output<File[]>();
 
   @HostListener('change', ['$event.target.files'])
-  onChangedFiles(files: File[]) {
+  onChangedFiles(fileList: FileList) {
+    const _files = Array.from(fileList); // convert FileList to array
     this.isDragging.set(false);
-    this.files.set(Array.from(files));
-    this.selectedFiles.emit(files);
+    this.files.set(_files);
+    this.selectedFiles.emit(_files);
   }
 
   @HostListener('dragover', ['$event'])
@@ -41,7 +42,7 @@ export class UploadFilesComponent {
 
     if (!event.dataTransfer) return;
 
-    this.onChangedFiles(Array.from(event.dataTransfer.files));
+    this.onChangedFiles(event.dataTransfer.files);
   }
 
   @HostListener('dragleave', ['$event'])
