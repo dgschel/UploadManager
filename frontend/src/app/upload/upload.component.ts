@@ -12,8 +12,13 @@ import { FilePropertyComponent } from './components/file-property/file-property.
 export class UploadComponent {
   files = signal<File[]>([]);
 
-  handleFileSelection(files: File[]) {
-    console.log('Upload Component', files);
+  handleFileSelection = (files: File[]) => {
     this.files.set(files);
-  }
+  };
+
+  handleRemoveFile = (file: File) => {
+    this.files.update((prevFiles) =>
+      prevFiles.filter((f) => f.name !== file.name)
+    );
+  };
 }
