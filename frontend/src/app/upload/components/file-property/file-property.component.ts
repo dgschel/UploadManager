@@ -1,4 +1,10 @@
-import { Component, InputSignal, input } from '@angular/core';
+import {
+  Component,
+  InputSignal,
+  OutputEmitterRef,
+  input,
+  output,
+} from '@angular/core';
 import { formatFileSize } from '../../../utils/file';
 
 @Component({
@@ -12,11 +18,18 @@ export class FilePropertyComponent {
   // Developer-Preview feature: InputSignal
   file: InputSignal<File> = input.required<File>();
 
+  // Developer Preview feature: OutputEmitterRef
+  removeFile: OutputEmitterRef<File> = output<File>();
+
   get name() {
     return this.file().name;
   }
 
   get size() {
     return formatFileSize(this.file().size);
+  }
+
+  remove() {
+    this.removeFile.emit(this.file());
   }
 }
