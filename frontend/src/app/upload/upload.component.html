@@ -9,7 +9,10 @@
       ></app-upload-files>
       <div class="flex flex-col gap-2">
         @for (file of files(); track file.name) {
-        <app-file-property [file]="file"></app-file-property>
+        <app-file-property
+          [file]="file"
+          (removeFile)="handleRemoveFile($event)"
+        ></app-file-property>
         }
       </div>
       <button
