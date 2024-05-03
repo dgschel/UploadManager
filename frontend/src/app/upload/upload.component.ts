@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 
 import { UploadFilesComponent } from './components/upload-files/upload-files.component';
 import { FilePropertyComponent } from './components/file-property/file-property.component';
+
 @Component({
   selector: 'app-upload',
   standalone: true,
@@ -11,6 +12,7 @@ import { FilePropertyComponent } from './components/file-property/file-property.
 })
 export class UploadComponent {
   files = signal<File[]>([]);
+  isLoading = signal<boolean>(false);
 
   handleFileSelection = (files: File[]) => {
     this.files.set(files);
@@ -20,5 +22,13 @@ export class UploadComponent {
     this.files.update((prevFiles) =>
       prevFiles.filter((f) => f.name !== file.name)
     );
+  };
+
+  upload = () => {
+    this.isLoading.set(true);
+
+    setTimeout(() => {
+      this.isLoading.set(false);
+    }, 3000);
   };
 }
