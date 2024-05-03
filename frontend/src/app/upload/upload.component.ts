@@ -2,11 +2,12 @@ import { Component, signal } from '@angular/core';
 
 import { UploadFilesComponent } from './components/upload-files/upload-files.component';
 import { FilePropertyComponent } from './components/file-property/file-property.component';
+import { LoadingComponent } from '../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-upload',
   standalone: true,
-  imports: [UploadFilesComponent, FilePropertyComponent],
+  imports: [UploadFilesComponent, FilePropertyComponent, LoadingComponent],
   templateUrl: './upload.component.html',
   styleUrl: './upload.component.scss',
 })
