@@ -7,6 +7,8 @@ import {
   OutputEmitterRef,
 } from '@angular/core';
 import { NgClass } from '@angular/common';
+import { isValidMimeType } from '../../../utils/file';
+import { allowedMimeTypes } from '../../../shared/models/mime-types';
 
 @Component({
   selector: 'app-upload-files',
@@ -22,12 +24,19 @@ export class UploadFilesComponent {
   // Developer Preview
   selectedFiles: OutputEmitterRef<File[]> = output<File[]>();
 
+  getMimeTypes(): string[] {
+    return allowedMimeTypes;
+  }
+
   @HostListener('change', ['$event.target.files'])
   onChangedFiles(fileList: FileList) {
-    const _files = Array.from(fileList); // convert FileList to array
+    const filesArray = Array.from(fileList); // convert FileList to array
+    const validFiles = filesArray.filter(isValidMimeType);
+    const limitedFiles = validFiles.slice(0, 5);
+
     this.isDragging.set(false);
-    this.files.set(_files);
-    this.selectedFiles.emit(_files);
+    this.files.set(limitedFiles);
+    this.selectedFiles.emit(limitedFiles);
   }
 
   @HostListener('dragover', ['$event'])
