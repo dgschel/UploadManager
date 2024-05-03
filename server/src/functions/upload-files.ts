@@ -17,7 +17,7 @@ export async function uploadFiles(request: HttpRequest, context: InvocationConte
     const config = context.extraInputs.get(configMimeTypesBlobInput);
 
     if (!config) {
-      return { body: `Missing config file for allowed MIME-Types` };
+      return { jsonBody: { message: `Missing config file for allowed MIME-Types` } };
     }
 
     const formData = await request.formData();
@@ -34,10 +34,10 @@ export async function uploadFiles(request: HttpRequest, context: InvocationConte
     context.log("Uploaded Files to Azure", uploadedFiles);
   } catch (error) {
     context.error(error);
-    return { body: error.message };
+    return { jsonBody: { message: error.message } };
   }
 
-  return { jsonBody: `Uploading files to Azure was successful` };
+  return { jsonBody: { message: `Uploading files to Azure was successful` } };
 }
 
 app.http("upload-files", {
