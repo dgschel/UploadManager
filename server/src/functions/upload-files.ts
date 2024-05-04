@@ -32,12 +32,13 @@ export async function uploadFiles(request: HttpRequest, context: InvocationConte
     const uploadedFiles = await azureFileUploader.upload(allowedFilesToUpload);
 
     context.log("Uploaded Files to Azure", uploadedFiles);
+    const fileNames = uploadedFiles.map((file) => file.name);
+
+    return { jsonBody: { message: `Uploading files to Azure was successful`, fileNames } };
   } catch (error) {
     context.error(error);
     return { jsonBody: { message: error.message } };
   }
-
-  return { jsonBody: { message: `Uploading files to Azure was successful` } };
 }
 
 app.http("upload-files", {
