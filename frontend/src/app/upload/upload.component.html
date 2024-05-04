@@ -1,9 +1,16 @@
 <div class="relative min-h-[calc(100vh-5rem)]">
   <div class="absolute inset-0 -z-10 -top-20 bg-gray-50"></div>
-  <div class="py-60 px-6">
+  <div class="max-w-screen-sm mx-auto py-60 px-6">
+    <div class="p-4 text-center">
+      <h1 class="text-3xl font-semibold">Dateien hochladen</h1>
+      <p class="mt-2 text-sm">
+        Wählen Sie die Dateien aus, die Sie hochladen möchten
+      </p>
+    </div>
+
     <app-loading [isLoading]="isLoading()">
       <div
-        class="flex flex-col gap-4 relative p-6 bg-white rounded-xl shadow-sm max-w-screen-sm mx-auto"
+        class="flex flex-col gap-4 relative p-6 bg-white rounded-xl shadow-sm"
       >
         <app-upload-files
           (selectedFiles)="handleFileSelection($event)"
@@ -25,5 +32,44 @@
         </button>
       </div>
     </app-loading>
+    <ul class="flex flex-col gap-2 p-4 text-sm text-prussian-blue/70">
+      <li class="flex gap-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-4 h-4 mt-0.5 shrink-0"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+          />
+        </svg>
+        <p>Bis zu 5 Dateien sicher in den Azure Blob Storage hochladen</p>
+      </li>
+      <li class="flex gap-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-4 h-4 mt-0.5 shrink-0"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"
+          />
+        </svg>
+        <p>
+          Strenge Validierung von Bild- und Video-MIME-Typen gewährleistet
+          Sicherheit
+        </p>
+      </li>
+    </ul>
   </div>
 </div>
