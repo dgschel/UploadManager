@@ -3,17 +3,27 @@ import { Component, signal } from '@angular/core';
 import { UploadFilesComponent } from './components/upload-files/upload-files.component';
 import { FilePropertyComponent } from './components/file-property/file-property.component';
 import { LoadingComponent } from '../shared/components/loading/loading.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { UploadFailure, UploadSuccess } from '../shared/models/upload-response';
 
 @Component({
   selector: 'app-upload',
   standalone: true,
-  imports: [UploadFilesComponent, FilePropertyComponent, LoadingComponent],
+  imports: [
+    HttpClientModule,
+    UploadFilesComponent,
+    FilePropertyComponent,
+    LoadingComponent,
+  ],
   templateUrl: './upload.component.html',
   styleUrl: './upload.component.scss',
 })
 export class UploadComponent {
   files = signal<File[]>([]);
   isLoading = signal<boolean>(false);
+
+  constructor(private http: HttpClient) {}
 
   handleFileSelection = (files: File[]) => {
     this.files.set(files);
@@ -26,10 +36,29 @@ export class UploadComponent {
   };
 
   upload = () => {
+    const formdata = new FormData();
     this.isLoading.set(true);
 
-    setTimeout(() => {
-      this.isLoading.set(false);
-    }, 3000);
+    this.files().forEach((file) => {
+      formdata.append('files', file);
+    });
+
+    this.http
+      .post<UploadSuccess>(environment.endpoints.fileUpload, formdata)
+      .subscribe({
+        next: this.handleUploadSuccess,
+        error: this.handleUploadFailure,
+      });
+  };
+
+  handleUploadSuccess = (response: UploadSuccess) => {
+    console.log('Upload successful: ', response.message);
+    this.isLoading.set(false);
+    this.files.set([]);
+  };
+
+  handleUploadFailure = (error: UploadFailure) => {
+    console.error('Upload failed', error.message);
+    this.isLoading.set(false);
   };
 }
