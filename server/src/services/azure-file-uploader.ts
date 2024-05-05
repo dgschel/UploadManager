@@ -1,6 +1,6 @@
 import { BlobServiceClient, BlockBlobClient } from "@azure/storage-blob";
 import { InvocationContext } from "@azure/functions";
-import { Upload } from "../models/Upload";
+import { Upload } from "../models/Upload.js";
 
 export class AzureFileUploader implements Upload {
   private _blobServiceClient: BlobServiceClient;

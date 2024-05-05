@@ -1,16 +1,29 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
 
-import { Config } from "../models/config";
-import { AzureFileUploader } from "../services/azure-file-uploader";
-import { MimeTypesValidator } from "../services/mime-type-validator";
-import { configMimeTypesBlobInput } from "../bindings/blobStorage";
-import { validateFormData } from "../utils/validate-form-data";
-import { getFiles } from "../utils/file";
+import { Config } from "../models/config.js";
+import { AzureFileUploader } from "../services/azure-file-uploader.js";
+import { MimeTypesValidator } from "../services/mime-type-validator.js";
+import { configMimeTypesBlobInput } from "../bindings/blobStorage.js";
+import { validateFormData } from "../utils/validate-form-data.js";
+import { getFiles } from "../utils/file.js";
+import { validateToken } from "../utils/validate-jwt-token.js";
 
 export async function uploadFiles(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
   context.log(`Http function processed request for url "${request.url}"`);
 
+  const token = request.headers.get("Authorization");
+
+  if (!token) {
+    return { jsonBody: { message: "Missing JWT token" } };
+  }
+
+  const value = token.split(" ")[1];
+
   try {
+    await validateToken(value);
+
+    context.log("JWT token is valid");
+
     // Retrieve the config file from the blob storage input binding
     // The config file contains the allowed MIME-Types to upload files
     // The type is either undefined or a custom type Config
@@ -36,7 +49,7 @@ export async function uploadFiles(request: HttpRequest, context: InvocationConte
 
     return { jsonBody: { message: `Uploading files to Azure was successful`, fileNames } };
   } catch (error) {
-    context.error(error);
+    context.error(`Failed to upload files to Azure: ${error.message}`);
     return { jsonBody: { message: error.message } };
   }
 }
