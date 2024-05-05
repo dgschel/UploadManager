@@ -43,7 +43,7 @@ export async function uploadFiles(request: HttpRequest, context: InvocationConte
 
 app.http("upload-files", {
   methods: ["POST"],
-  authLevel: "function",
+  authLevel: "anonymous",
   extraInputs: [configMimeTypesBlobInput],
   handler: uploadFiles,
 });
