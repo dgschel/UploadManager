@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "@azure/functions": "^4.0.0",
-    "@azure/storage-blob": "^12.17.0"
+    "@azure/storage-blob": "^12.17.0",
+    "azure-ad-verify-token": "^3.0.3"
   },
   "devDependencies": {
     "@types/node": "^18.x",
