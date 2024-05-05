@@ -5,10 +5,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import {
   MSAL_GUARD_CONFIG,
   MSAL_INSTANCE,
+  MSAL_INTERCEPTOR_CONFIG,
   MsalBroadcastService,
   MsalGuard,
   MsalGuardConfiguration,
+  MsalInterceptor,
+  MsalInterceptorConfiguration,
   MsalService,
+  ProtectedResourceScopes,
 } from '@azure/msal-angular';
 import {
   BrowserCacheLocation,
@@ -20,6 +24,11 @@ import {
 
 import { routes } from './app.routes';
 import { environment } from '../environments/environment';
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http';
 
 // This is the callback function that will be called by the MSAL logger
 export function loggerCallback(logLevel: LogLevel, message: string) {
@@ -50,11 +59,38 @@ export function MSALInstanceFactory(): IPublicClientApplication {
   });
 }
 
+/*
+ * MSAL Angular will automatically retrieve tokens for resources
+ * added to protectedResourceMap. For more info, visit:
+ * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-angular/docs/v2-docs/initialization.md#get-tokens-for-web-api-calls
+ */
+export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
+  const protectedResourceMap = new Map<
+    string,
+    Array<string | ProtectedResourceScopes>
+  >();
+
+  protectedResourceMap.set(environment.endpoints.fileUpload, [
+    {
+      httpMethod: 'POST',
+      scopes: ['https://uploadmanager.onmicrosoft.com/api/Files.Write'],
+    },
+  ]);
+
+  return {
+    interactionType: InteractionType.Redirect,
+    protectedResourceMap,
+  };
+}
+
 export function MSALGuardConfigFactory(): MsalGuardConfiguration {
   return {
     interactionType: InteractionType.Redirect,
     authRequest: {
-      scopes: ['openid'], // This is the scope that the application will request from the user. It is defined in the registered application in Azure AD B2C under the API permissions
+      scopes: [
+        'openid',
+        'https://uploadmanager.onmicrosoft.com/api/Files.Write',
+      ], // This is the scope that the application will request from the user. It is defined in the registered application in Azure AD B2C under the API permissions
     },
     loginFailedRoute: '/login-failed',
   };
@@ -65,12 +101,21 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     importProvidersFrom(BrowserModule),
     {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MsalInterceptor,
+      multi: true,
+    },
+    {
       provide: MSAL_INSTANCE, // This is the token that the MSAL service will use to create the instance
       useFactory: MSALInstanceFactory, // This is the factory that will create the instance
     },
     {
       provide: MSAL_GUARD_CONFIG,
       useFactory: MSALGuardConfigFactory,
+    },
+    {
+      provide: MSAL_INTERCEPTOR_CONFIG,
+      useFactory: MSALInterceptorConfigFactory,
     },
     MsalService, // This is the service that will be used to interact with the MSAL instance
     MsalBroadcastService, // This is the service that will be used to broadcast the MSAL events
