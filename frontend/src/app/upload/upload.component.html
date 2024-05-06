@@ -1,8 +1,7 @@
 <div class="relative min-h-[calc(100vh-5rem)]">
   <div class="absolute inset-0 -z-10 -top-20 bg-gray-50"></div>
+  @if (!isUploadSuccess()) {
   <div class="max-w-screen-sm mx-auto py-6 sm:py-32 px-6">
-    @if (!isUploadSuccess()) {
-
     <div class="p-4 pt-0 text-center">
       <h1 class="text-3xl font-semibold">Dateien hochladen</h1>
       <p class="mt-2 text-sm">
@@ -35,6 +34,7 @@
         </button>
       </div>
     </app-loading>
+
     <ul class="flex flex-col gap-2 p-4 text-sm text-prussian-blue/70">
       <li class="flex gap-2">
         <svg
@@ -74,9 +74,20 @@
         </p>
       </li>
     </ul>
-
-    } @else {
-    <app-successful></app-successful>
-    }
   </div>
+
+  } @else {
+
+  <div class="flex flex-col mx-auto max-w-xs py-6 sm:py-32 px-6">
+    <app-successful>
+      <button
+        type="button"
+        (click)="reset()"
+        class="transition duration-200 rounded-md mt-4 bg-prussian-blue px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-picton-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-prussian-blue"
+      >
+        Dateien hochladen
+      </button>
+    </app-successful>
+  </div>
+  }
 </div>
