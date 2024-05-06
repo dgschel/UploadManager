@@ -65,4 +65,10 @@ export class UploadComponent {
     console.error('Upload failed', error.message);
     this.isLoading.set(false);
   };
+
+  reset() {
+    this.files.set([]);
+    this.isLoading.set(false);
+    this.isUploadSuccess.set(false);
+  }
 }
