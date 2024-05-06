@@ -6,6 +6,7 @@ import { LoadingComponent } from '../shared/components/loading/loading.component
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { UploadFailure, UploadSuccess } from '../shared/models/upload-response';
+import { SuccessfulComponent } from '../shared/components/successful/successful.component';
 
 @Component({
   selector: 'app-upload',
@@ -15,6 +16,7 @@ import { UploadFailure, UploadSuccess } from '../shared/models/upload-response';
     UploadFilesComponent,
     FilePropertyComponent,
     LoadingComponent,
+    SuccessfulComponent,
   ],
   templateUrl: './upload.component.html',
   styleUrl: './upload.component.scss',
