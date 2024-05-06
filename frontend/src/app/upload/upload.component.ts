@@ -24,6 +24,7 @@ import { SuccessfulComponent } from '../shared/components/successful/successful.
 export class UploadComponent {
   files = signal<File[]>([]);
   isLoading = signal<boolean>(false);
+  isUploadSuccess = signal<boolean>(true);
 
   constructor(private http: HttpClient) {}
 
@@ -57,6 +58,7 @@ export class UploadComponent {
     console.log('Upload successful: ', response.message);
     this.isLoading.set(false);
     this.files.set([]);
+    this.isUploadSuccess.set(true);
   };
 
   handleUploadFailure = (error: UploadFailure) => {

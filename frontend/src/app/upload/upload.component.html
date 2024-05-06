@@ -1,6 +1,8 @@
 <div class="relative min-h-[calc(100vh-5rem)]">
   <div class="absolute inset-0 -z-10 -top-20 bg-gray-50"></div>
   <div class="max-w-screen-sm mx-auto py-6 sm:py-32 px-6">
+    @if (!isUploadSuccess()) {
+
     <div class="p-4 pt-0 text-center">
       <h1 class="text-3xl font-semibold">Dateien hochladen</h1>
       <p class="mt-2 text-sm">
@@ -72,5 +74,9 @@
         </p>
       </li>
     </ul>
+
+    } @else {
+    <app-successful></app-successful>
+    }
   </div>
 </div>
