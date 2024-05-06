@@ -24,11 +24,7 @@ import {
 
 import { routes } from './app.routes';
 import { environment } from '../environments/environment';
-import {
-  HTTP_INTERCEPTORS,
-  provideHttpClient,
-  withInterceptors,
-} from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // This is the callback function that will be called by the MSAL logger
 export function loggerCallback(logLevel: LogLevel, message: string) {
