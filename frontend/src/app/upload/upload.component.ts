@@ -24,7 +24,7 @@ import { SuccessfulComponent } from '../shared/components/successful/successful.
 export class UploadComponent {
   files = signal<File[]>([]);
   isLoading = signal<boolean>(false);
-  isUploadSuccess = signal<boolean>(true);
+  isUploadSuccess = signal<boolean>(false);
 
   constructor(private http: HttpClient) {}
 
