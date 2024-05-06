@@ -16,6 +16,11 @@
         <app-upload-files
           (selectedFiles)="handleFileSelection($event)"
         ></app-upload-files>
+
+        @if (isUploadError()) {
+        <p class="text-red-500 text-center">Fehler! Etwas ist schiefgelaufen</p>
+        }
+
         <div class="flex flex-col gap-2">
           @for (file of files(); track file.name) {
           <app-file-property
@@ -24,6 +29,7 @@
           ></app-file-property>
           }
         </div>
+
         <button
           type="submit"
           (click)="upload()"

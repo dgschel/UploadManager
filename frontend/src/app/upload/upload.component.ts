@@ -25,6 +25,7 @@ export class UploadComponent {
   files = signal<File[]>([]);
   isLoading = signal<boolean>(false);
   isUploadSuccess = signal<boolean>(false);
+  isUploadError = signal<boolean>(false);
 
   constructor(private http: HttpClient) {}
 
@@ -41,6 +42,7 @@ export class UploadComponent {
   upload = () => {
     const formdata = new FormData();
     this.isLoading.set(true);
+    this.isUploadError.set(false);
 
     this.files().forEach((file) => {
       formdata.append('files', file);
@@ -63,6 +65,7 @@ export class UploadComponent {
 
   handleUploadFailure = (error: UploadFailure) => {
     console.error('Upload failed', error.message);
+    this.isUploadError.set(true);
     this.isLoading.set(false);
   };
 
@@ -70,5 +73,6 @@ export class UploadComponent {
     this.files.set([]);
     this.isLoading.set(false);
     this.isUploadSuccess.set(false);
+    this.isUploadError.set(false);
   }
 }
