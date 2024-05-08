@@ -20,7 +20,9 @@ export async function uploadFiles(request: HttpRequest, context: InvocationConte
   const value = token.split(" ")[1];
 
   try {
-    await validateToken(value);
+    // Validate the JWT token and retrieve the sub claim
+    // The sub claim is the unique identifier of the user in Azure AD B2C
+    const { sub } = await validateToken(value);
 
     context.log("JWT token is valid");
 
@@ -41,7 +43,7 @@ export async function uploadFiles(request: HttpRequest, context: InvocationConte
     const allowedFilesToUpload = files.filter(mimeTypesValidator.hasAllowedMimeType);
     context.log("Allowed Files to upload", allowedFilesToUpload);
 
-    const azureFileUploader = new AzureFileUploader("uploads", context);
+    const azureFileUploader = new AzureFileUploader(sub, context);
     const uploadedFiles = await azureFileUploader.upload(allowedFilesToUpload);
 
     context.log("Uploaded Files to Azure", uploadedFiles);
