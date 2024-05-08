@@ -3,8 +3,12 @@ export const allowedMimeTypes = [
   'image/png',
   'image/gif',
   'image/svg+xml',
+  'image/webp',
+  'image/bmp',
   'video/mp4',
+  'video/mpeg',
   'video/quicktime',
   'video/webm',
   'video/x-msvideo',
+  'video/x-flv',
 ];
