@@ -9,7 +9,7 @@ export async function downloadFiles(request: HttpRequest, context: InvocationCon
 };
 
 app.http('download-files', {
-    methods: ['GET', 'POST'],
+    methods: ['GET'],
     authLevel: 'anonymous',
     handler: downloadFiles
 });
