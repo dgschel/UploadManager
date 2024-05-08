@@ -21,10 +21,15 @@ export class AzureFileUploader implements Upload {
     return blockBlobClient;
   }
 
+  private getDirectory(fileType: string): string {
+    return fileType.split("/")[0] === "image" ? "images" : "videos";
+  }
+
   async upload(files: File[]): Promise<File[]> {
     const uploadPromises = files.map(async (file) => {
       try {
-        const blockBlobClient = await this.getBlobClient(file.name);
+        const dir = this.getDirectory(file.type);
+        const blockBlobClient = await this.getBlobClient(`${dir}/${file.name}`);
         const buffer = await file.arrayBuffer();
         await blockBlobClient.uploadData(buffer, { blobHTTPHeaders: { blobContentType: file.type } });
 
