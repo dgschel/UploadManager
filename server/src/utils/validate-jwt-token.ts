@@ -10,7 +10,7 @@ export async function validateToken(token: string): Promise<JwtPayload> {
 
   try {
     // Verify the token and return the payload as JwtPayload. Ignore the type string
-    return verify(token, options) as JwtPayload;
+    return await verify(token, options) as JwtPayload;
   } catch (error) {
     throw new Error(`Failed to validate token`);
   }
