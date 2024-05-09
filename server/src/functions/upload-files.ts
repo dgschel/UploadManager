@@ -22,7 +22,7 @@ export async function uploadFiles(request: HttpRequest, context: InvocationConte
   try {
     // Validate the JWT token and retrieve the sub claim
     // The sub claim is the unique identifier of the user in Azure AD B2C
-    const { sub } = await validateToken(value);
+    const { sub } = await validateToken(value, process.env["APPLICATION_ID_UPLOAD_FILES"]);
 
     context.log("JWT token is valid");
 
@@ -52,7 +52,8 @@ export async function uploadFiles(request: HttpRequest, context: InvocationConte
     return { jsonBody: { message: `Uploading files to Azure was successful`, fileNames } };
   } catch (error) {
     context.error(`Failed to upload files to Azure: ${error.message}`);
-    return { jsonBody: { message: error.message } };
+    // throw new Error(`Failed to upload files to Azure: ${error.message}`);
+    return { jsonBody: { message: error.message }, status: 500 };
   }
 }
 
