@@ -12,19 +12,25 @@ export class AzureFileDownloader {
     this._context = context;
   }
 
-  async listBlobsByHierarchy(virtualHierarchyDelimiter: string = "/"): Promise<string[]> {
-    const containerClient = this._blobServiceClient.getContainerClient(this._containerName);
+  async listBlobsByHierarchy(prefix: string) {
+    const containerClient: ContainerClient = this._blobServiceClient.getContainerClient(this._containerName);
+    const result = [];
 
-    for await (const response of containerClient.listBlobsByHierarchy(virtualHierarchyDelimiter).byPage()) {
+    for await (const response of containerClient.listBlobsByHierarchy("/", { prefix }).byPage()) {
       const segment = response.segment;
 
-      if (segment.blobPrefixes) {
+      if (segment.blobPrefixes.length) {
         for await (const prefix of segment.blobPrefixes) {
-          return await this.listBlobsByHierarchy(`${virtualHierarchyDelimiter}${prefix.name}`);
+          const data = await this.listBlobsByHierarchy(prefix.name);
+          result.push({ prefix: prefix.name, data });
         }
+
+        return result;
       }
 
-      return segment.blobItems.map((blob) => containerClient.getBlobClient(blob.name).url);
+      return segment.blobItems.map((blobItem) => containerClient.getBlobClient(blobItem.name).url);
     }
+
+    return result;
   }
 }
