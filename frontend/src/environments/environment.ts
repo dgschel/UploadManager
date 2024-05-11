@@ -12,5 +12,7 @@ export const environment = {
   endpoints: {
     fileUpload:
       'https://func-uploadmanager-prod-001.azurewebsites.net/api/upload-files',
+    fileDownload:
+      'https://func-uploadmanager-prod-001.azurewebsites.net/api/download-files',
   },
 };
