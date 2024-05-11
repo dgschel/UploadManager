@@ -69,7 +69,18 @@ export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   protectedResourceMap.set(environment.endpoints.fileUpload, [
     {
       httpMethod: 'POST',
-      scopes: ['https://uploadmanager.onmicrosoft.com/api/Files.Write'],
+      scopes: [
+        'https://uploadmanager.onmicrosoft.com/api/upload-files/Files.Write',
+      ],
+    },
+  ]);
+
+  protectedResourceMap.set(environment.endpoints.fileDownload, [
+    {
+      httpMethod: 'GET',
+      scopes: [
+        'https://uploadmanager.onmicrosoft.com/api/download-files/Files.Read',
+      ],
     },
   ]);
 
@@ -85,7 +96,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     authRequest: {
       scopes: [
         'openid',
-        'https://uploadmanager.onmicrosoft.com/api/Files.Write',
+        'https://uploadmanager.onmicrosoft.com/api/upload-files/Files.Write',
+        'https://uploadmanager.onmicrosoft.com/api/download-files/Files.Read',
       ], // This is the scope that the application will request from the user. It is defined in the registered application in Azure AD B2C under the API permissions
     },
     loginFailedRoute: '/login-failed',
