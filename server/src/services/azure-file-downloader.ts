@@ -12,7 +12,7 @@ export class AzureFileDownloader {
     this._context = context;
   }
 
-  async listBlobsByHierarchy(prefix: string) {
+  async listBlobsByHierarchy(prefix: string = "") {
     const containerClient: ContainerClient = this._blobServiceClient.getContainerClient(this._containerName);
     const result = [];
 
