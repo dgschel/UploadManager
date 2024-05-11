@@ -21,14 +21,17 @@ export class AzureFileDownloader {
 
       if (segment.blobPrefixes.length) {
         for await (const prefix of segment.blobPrefixes) {
-          const data = await this.listBlobsByHierarchy(prefix.name);
-          result.push({ prefix: prefix.name, data });
+          const blobs = await this.listBlobsByHierarchy(prefix.name);
+          result.push({ prefix: prefix.name, blobs });
         }
 
         return result;
       }
 
-      return segment.blobItems.map((blobItem) => containerClient.getBlobClient(blobItem.name).url);
+      return segment.blobItems.map((blobItem) => ({
+        name: blobItem.name.replace(prefix, ""),
+        url: containerClient.getBlobClient(blobItem.name).url,
+      }));
     }
 
     return result;
