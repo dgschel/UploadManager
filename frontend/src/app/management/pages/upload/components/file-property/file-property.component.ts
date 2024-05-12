@@ -5,7 +5,7 @@ import {
   input,
   output,
 } from '@angular/core';
-import { formatFileSize } from '../../../utils/file';
+import { formatFileSize } from '../../../../../utils/file';
 
 @Component({
   selector: 'app-file-property',

@@ -94,11 +94,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
   return {
     interactionType: InteractionType.Redirect,
     authRequest: {
-      scopes: [
-        'openid',
-        'https://uploadmanager.onmicrosoft.com/api/upload-files/Files.Write',
-        'https://uploadmanager.onmicrosoft.com/api/download-files/Files.Read',
-      ], // This is the scope that the application will request from the user. It is defined in the registered application in Azure AD B2C under the API permissions
+      scopes: ['openid'], // This is the scope that the application will request from the user. It is defined in the registered application in Azure AD B2C under the API permissions
     },
     loginFailedRoute: '/login-failed',
   };

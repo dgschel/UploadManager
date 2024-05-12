@@ -7,8 +7,8 @@ import {
   OutputEmitterRef,
 } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { isValidMimeType } from '../../../utils/file';
-import { allowedMimeTypes } from '../../../shared/models/mime-types';
+import { allowedMimeTypes } from '../../../../../shared/models/mime-types';
+import { isValidMimeType } from '../../../../../utils/file';
 
 @Component({
   selector: 'app-upload-files',

@@ -2,11 +2,14 @@ import { Component, signal } from '@angular/core';
 
 import { UploadFilesComponent } from './components/upload-files/upload-files.component';
 import { FilePropertyComponent } from './components/file-property/file-property.component';
-import { LoadingComponent } from '../shared/components/loading/loading.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { UploadFailure, UploadSuccess } from '../shared/models/upload-response';
-import { SuccessfulComponent } from '../shared/components/successful/successful.component';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
+import { LoadingComponent } from '../../../shared/components/loading/loading.component';
+import { SuccessfulComponent } from '../../../shared/components/successful/successful.component';
+import {
+  UploadSuccess,
+  UploadFailure,
+} from '../../../shared/models/upload-response';
 
 @Component({
   selector: 'app-upload',
