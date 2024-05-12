@@ -7,9 +7,7 @@ export const ManagementRoutes: Routes = [
   {
     path: '',
     component: ManagementComponent,
-    children: [
-      { path: 'download', component: DownloadComponent },
-      { path: 'upload', component: UploadComponent },
-    ],
   },
+  { path: 'download', component: DownloadComponent },
+  { path: 'upload', component: UploadComponent },
 ];
