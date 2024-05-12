@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { UploadComponent } from '../upload/upload.component';
 
 @Component({
   selector: 'app-management',
