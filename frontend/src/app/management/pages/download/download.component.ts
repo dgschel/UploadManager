@@ -1,6 +1,8 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit, signal } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
+
+import { Observable } from 'rxjs';
+
 import { DownloadListComponent } from '../../components/download-list/download-list.component';
 import { CustomBlobProperties } from '../../../shared/models/blob';
 import { environment } from '../../../../environments/environment';
