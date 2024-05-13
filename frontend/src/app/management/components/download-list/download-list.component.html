@@ -1,11 +1,27 @@
 <ngx-datatable [rows]="rows()">
-  <ngx-datatable-column name="Name" prop="name"></ngx-datatable-column>
-  <ngx-datatable-column
-    name="Inhaltstyp"
-    prop="contentType"
-  ></ngx-datatable-column>
-  <ngx-datatable-column name="Größe" prop="size"></ngx-datatable-column>
-  <ngx-datatable-column name="Erstellt am" prop="createdOn">
+  <ngx-datatable-column name="Name" prop="name">
+    <ng-template let-value="row" ngx-datatable-cell-template>
+      <div>{{ value.name }}</div>
+    </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="Url" prop="url"></ngx-datatable-column>
+  <ngx-datatable-column name="Inhaltstyp" prop="contentType">
+    <ng-template let-value="row" ngx-datatable-cell-template>
+      <div>{{ value.contentType }}</div>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Größe" prop="size">
+    <ng-template let-value="row" ngx-datatable-cell-template>
+      <div>{{ value.size }}</div>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Erstellt am" prop="createdOn">
+    <ng-template let-value="row" ngx-datatable-cell-template>
+      <div>{{ value.createdOn }}</div>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Url" prop="url">
+    <ng-template let-value="row" ngx-datatable-cell-template>
+      <a [href]="value.url">Url</a>
+    </ng-template>
+  </ngx-datatable-column>
 </ngx-datatable>
