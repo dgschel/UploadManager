@@ -11,4 +11,4 @@ export const allowedMimeTypes = [
   'video/webm',
   'video/x-msvideo',
   'video/x-flv',
-];
+] as const; // create a readonly union type from the array with the magic of as const
