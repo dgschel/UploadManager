@@ -1,1 +1,11 @@
-<p>download-list works!</p>
+<ngx-datatable [rows]="rows()">
+  <ngx-datatable-column name="Name" prop="name"></ngx-datatable-column>
+  <ngx-datatable-column
+    name="Inhaltstyp"
+    prop="contentType"
+  ></ngx-datatable-column>
+  <ngx-datatable-column name="Größe" prop="size"></ngx-datatable-column>
+  <ngx-datatable-column name="Erstellt am" prop="createdOn">
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Url" prop="url"></ngx-datatable-column>
+</ngx-datatable>
