@@ -15,7 +15,7 @@ import { HttpResultWrapper } from '../../../shared/models/http';
   styleUrl: './download.component.scss',
 })
 export class DownloadComponent implements OnInit {
-  prefixBlobs = signal<PrefixedBlobProperties[]>([]);
+  prefixedBlobs = signal<PrefixedBlobProperties[]>([]);
   isLoading = signal<boolean>(false);
 
   constructor(private http: HttpClient) {}
@@ -32,7 +32,7 @@ export class DownloadComponent implements OnInit {
     data: HttpResultWrapper<PrefixedBlobProperties>
   ): void {
     this.isLoading.set(false);
-    this.prefixBlobs.set(data.result);
+    this.prefixedBlobs.set(data.result);
     console.log('Blobs: ', data);
   }
 
