@@ -9,3 +9,8 @@ export type CustomBlobProperties = {
   size: number;
   createdOn: Date;
 };
+
+export type PrefixedBlobProperties = {
+  prefix: string;
+  blobs: CustomBlobProperties[];
+};
