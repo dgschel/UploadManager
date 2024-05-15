@@ -1,5 +1,5 @@
 import { InvocationContext } from "@azure/functions";
-import { BlobSASPermissions, BlobServiceClient, ContainerClient, ContainerSASPermissions } from "@azure/storage-blob";
+import { BlobSASPermissions, BlobServiceClient, ContainerSASPermissions } from "@azure/storage-blob";
 
 export class AzureSASTokenGenerator {
   constructor(private readonly _blobServiceClient: BlobServiceClient, private readonly _context: InvocationContext) {}
