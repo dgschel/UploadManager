@@ -29,7 +29,6 @@ export class AzureFileDownloader {
         return result;
       }
 
-      // Service SAS Container Level
       return segment.blobItems.map(
         (blobItem) =>
           ({
