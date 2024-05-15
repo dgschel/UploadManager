@@ -8,6 +8,8 @@ export class AzureSASTokenGenerator {
   generateContainerSASUrl = async (containerName: string): Promise<string> => {
     const containerClient = this._blobServiceClient.getContainerClient(containerName);
 
+    this._context.log(`Generating SAS token for container ${containerName}`);
+
     return containerClient.generateSasUrl({
       permissions: ContainerSASPermissions.parse("r"), // Set the permission on the container to read with helper method
       startsOn: new Date(), // Set the start time
@@ -19,6 +21,8 @@ export class AzureSASTokenGenerator {
   generateBlobSASUrl = async (containerName: string, blobName: string): Promise<string> => {
     const containerClient = this._blobServiceClient.getContainerClient(containerName);
     const blobClient = containerClient.getBlobClient(blobName);
+
+    this._context.log(`Generating SAS token for blob ${blobName}`);
 
     return blobClient.generateSasUrl({
       permissions: BlobSASPermissions.parse("r"),
