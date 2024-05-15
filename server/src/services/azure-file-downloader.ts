@@ -1,5 +1,6 @@
 import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 import { InvocationContext } from "@azure/functions";
+import { CustomBlobProperties } from "../models/blob.js";
 
 export class AzureFileDownloader {
   _blobServiceClient: BlobServiceClient;
@@ -28,10 +29,17 @@ export class AzureFileDownloader {
         return result;
       }
 
-      return segment.blobItems.map((blobItem) => ({
-        name: blobItem.name.replace(prefix, ""),
-        url: containerClient.getBlobClient(blobItem.name).url,
-      }));
+      // Service SAS Container Level
+      return segment.blobItems.map(
+        (blobItem) =>
+          ({
+            name: blobItem.name.replace(prefix, ""),
+            url: containerClient.getBlobClient(blobItem.name).url,
+            contentType: blobItem.properties.contentType,
+            size: blobItem.properties.contentLength,
+            createdOn: blobItem.properties.createdOn,
+          } as CustomBlobProperties)
+      );
     }
 
     return result;
