@@ -1,3 +1,4 @@
+import { AllowedContentType } from '../shared/models/blob';
 import { allowedMimeTypes } from '../shared/models/mime-types';
 
 export const formatFileSize = (size: number): string => {
@@ -11,4 +12,4 @@ export const formatFileSize = (size: number): string => {
 };
 
 export const isValidMimeType = (file: File): boolean =>
-  allowedMimeTypes.includes(file.type);
+  allowedMimeTypes.includes(file.type as AllowedContentType);

@@ -9,6 +9,7 @@ import {
 import { NgClass } from '@angular/common';
 import { allowedMimeTypes } from '../../../../../shared/models/mime-types';
 import { isValidMimeType } from '../../../../../utils/file';
+import { AllowedContentType } from '../../../../../shared/models/blob';
 
 @Component({
   selector: 'app-upload-files',
@@ -24,8 +25,8 @@ export class UploadFilesComponent {
   // Developer Preview
   selectedFiles: OutputEmitterRef<File[]> = output<File[]>();
 
-  getMimeTypes(): string[] {
-    return allowedMimeTypes;
+  getMimeTypes(): AllowedContentType[] {
+    return Array.from(allowedMimeTypes);
   }
 
   @HostListener('change', ['$event.target.files'])
