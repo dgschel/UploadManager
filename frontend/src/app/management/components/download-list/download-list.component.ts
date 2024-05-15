@@ -1,6 +1,11 @@
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
+
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { CustomBlobProperties } from '../../../shared/models/blob';
+
+import {
+  CustomBlobProperties,
+  PrefixedBlobProperties,
+} from '../../../shared/models/blob';
 
 @Component({
   selector: 'app-download-list',
@@ -10,5 +15,10 @@ import { CustomBlobProperties } from '../../../shared/models/blob';
   styleUrl: './download-list.component.scss',
 })
 export class DownloadListComponent {
-  rows = input.required<CustomBlobProperties[]>();
+  prefixedBlobs = input.required<PrefixedBlobProperties[]>();
+  blobs = computed(() => {
+    return this.prefixedBlobs().reduce((acc, curr) => {
+      return acc.concat(curr.blobs);
+    }, [] as CustomBlobProperties[]);
+  });
 }
