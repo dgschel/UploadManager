@@ -1,4 +1,4 @@
-<ngx-datatable [rows]="rows()">
+<ngx-datatable [rows]="blobs()">
   <ngx-datatable-column name="Name" prop="name">
     <ng-template let-value="row" ngx-datatable-cell-template>
       <div>{{ value.name }}</div>
@@ -21,7 +21,7 @@
   </ngx-datatable-column>
   <ngx-datatable-column name="Url" prop="url">
     <ng-template let-value="row" ngx-datatable-cell-template>
-      <a [href]="value.url">Url</a>
+      <div>{{ value.url }}</div>
     </ng-template>
   </ngx-datatable-column>
 </ngx-datatable>
