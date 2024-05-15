@@ -1,12 +1,11 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit, signal } from '@angular/core';
 
-import { Observable } from 'rxjs';
-
 import { DownloadListComponent } from '../../components/download-list/download-list.component';
-import { CustomBlobProperties } from '../../../shared/models/blob';
+import { PrefixedBlobProperties } from '../../../shared/models/blob';
 import { environment } from '../../../../environments/environment';
 import { LoadingComponent } from '../../../shared/components/loading/loading.component';
+import { HttpResultWrapper } from '../../../shared/models/http';
 
 @Component({
   selector: 'app-download',
@@ -16,23 +15,24 @@ import { LoadingComponent } from '../../../shared/components/loading/loading.com
   styleUrl: './download.component.scss',
 })
 export class DownloadComponent implements OnInit {
-  blobs = signal<CustomBlobProperties[]>([]);
+  prefixBlobs = signal<PrefixedBlobProperties[]>([]);
   isLoading = signal<boolean>(false);
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.isLoading.set(true);
-
     this.getBlobs().subscribe({
       next: (data) => this.handleFetchSuccess(data),
       error: (e) => this.handleFetchError(e),
     });
   }
 
-  private handleFetchSuccess(data: CustomBlobProperties[]): void {
+  private handleFetchSuccess(
+    data: HttpResultWrapper<PrefixedBlobProperties>
+  ): void {
     this.isLoading.set(false);
-    this.blobs.set(data);
+    this.prefixBlobs.set(data.result);
     console.log('Blobs: ', data);
   }
 
@@ -41,8 +41,8 @@ export class DownloadComponent implements OnInit {
     console.error('Error: ', error);
   }
 
-  private getBlobs(): Observable<CustomBlobProperties[]> {
-    return this.http.get<CustomBlobProperties[]>(
+  private getBlobs() {
+    return this.http.get<HttpResultWrapper<PrefixedBlobProperties>>(
       environment.endpoints.fileDownload
     );
   }
