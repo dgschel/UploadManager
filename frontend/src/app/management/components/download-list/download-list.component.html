@@ -6,7 +6,7 @@
   </ngx-datatable-column>
   <ngx-datatable-column name="Inhaltstyp" prop="contentType">
     <ng-template let-value="row" ngx-datatable-cell-template>
-      <div>{{ value.contentType }}</div>
+      <div>{{ getFormattedDocumentType(value.contentType) }}</div>
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column name="Größe" prop="size">

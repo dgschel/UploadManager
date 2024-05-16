@@ -13,3 +13,21 @@ export const formatFileSize = (size: number): string => {
 
 export const isValidMimeType = (file: File): boolean =>
   allowedMimeTypes.includes(file.type as AllowedContentType);
+
+export const documentTypeMap: Record<AllowedContentType, string> = {
+  'image/bmp': 'BMP',
+  'image/gif': 'GIF',
+  'image/jpeg': 'JPEG',
+  'image/png': 'PNG',
+  'image/svg+xml': 'SVG',
+  'image/webp': 'WEBP',
+  'video/mp4': 'MP4',
+  'video/mpeg': 'MPEG',
+  'video/quicktime': 'QUICKTIME',
+  'video/webm': 'WEBM',
+  'video/x-flv': 'FLV',
+  'video/x-msvideo': 'AVI',
+};
+
+export const formatDocumentType = (documentType: AllowedContentType): string =>
+  documentTypeMap[documentType];
