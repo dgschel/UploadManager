@@ -6,6 +6,7 @@ import {
   CustomBlobProperties,
   PrefixedBlobProperties,
 } from '../../../shared/models/blob';
+import { formatFileSize } from '../../../utils/file';
 
 @Component({
   selector: 'app-download-list',
@@ -16,9 +17,7 @@ import {
 })
 export class DownloadListComponent {
   prefixedBlobs = input.required<PrefixedBlobProperties[]>();
-  blobs = computed(() => {
-    return this.prefixedBlobs().reduce((acc, curr) => {
-      return acc.concat(curr.blobs);
-    }, [] as CustomBlobProperties[]);
-  });
+  blobs = computed(() => this.prefixedBlobs().flatMap((data) => data.blobs));
+
+  getFormattedSize = (size: number) => formatFileSize(size);
 }
