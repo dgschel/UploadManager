@@ -52,7 +52,6 @@ export async function uploadFiles(request: HttpRequest, context: InvocationConte
     return { jsonBody: { message: `Uploading files to Azure was successful`, fileNames } };
   } catch (error) {
     context.error(`Failed to upload files to Azure: ${error.message}`);
-    // throw new Error(`Failed to upload files to Azure: ${error.message}`);
     return { jsonBody: { message: error.message }, status: 500 };
   }
 }
