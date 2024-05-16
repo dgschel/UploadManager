@@ -11,7 +11,7 @@
   </ngx-datatable-column>
   <ngx-datatable-column name="Größe" prop="size">
     <ng-template let-value="row" ngx-datatable-cell-template>
-      <div>{{ value.size }}</div>
+      <div>{{ getFormattedSize(value.size) }}</div>
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column name="Erstellt am" prop="createdOn">
