@@ -16,7 +16,7 @@
   </ngx-datatable-column>
   <ngx-datatable-column name="Erstellt am" prop="createdOn">
     <ng-template let-value="row" ngx-datatable-cell-template>
-      <div>{{ value.createdOn }}</div>
+      <div>{{ getFormattedDate(value.createdOn) }}</div>
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column name="Url" prop="url">

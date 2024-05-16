@@ -7,6 +7,7 @@ import {
   PrefixedBlobProperties,
 } from '../../../shared/models/blob';
 import { formatFileSize } from '../../../utils/file';
+import { formatDate } from '../../../utils/date';
 
 @Component({
   selector: 'app-download-list',
@@ -20,4 +21,5 @@ export class DownloadListComponent {
   blobs = computed(() => this.prefixedBlobs().flatMap((data) => data.blobs));
 
   getFormattedSize = (size: number) => formatFileSize(size);
+  getFormattedDate = (date: string) => formatDate(date);
 }
