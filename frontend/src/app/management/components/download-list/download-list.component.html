@@ -1,7 +1,7 @@
 <ngx-datatable [rows]="blobs()">
   <ngx-datatable-column name="Name" prop="name">
     <ng-template let-value="row" ngx-datatable-cell-template>
-      <div>{{ value.name }}</div>
+      <div>{{ getFormattedName(value.name) }}</div>
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column name="Inhaltstyp" prop="contentType">

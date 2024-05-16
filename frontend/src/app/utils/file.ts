@@ -11,6 +11,14 @@ export const formatFileSize = (size: number): string => {
   return `${size.toFixed(2)} ${units[index]}`;
 };
 
+export const removeFileExtension = (fileName: string): string => {
+  const lastDotIndex = fileName.lastIndexOf('.');
+  if (lastDotIndex !== -1) {
+    return fileName.substring(0, lastDotIndex);
+  }
+  return fileName;
+};
+
 export const isValidMimeType = (file: File): boolean =>
   allowedMimeTypes.includes(file.type as AllowedContentType);
 

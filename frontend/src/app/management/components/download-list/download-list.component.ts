@@ -7,7 +7,11 @@ import {
   CustomBlobProperties,
   PrefixedBlobProperties,
 } from '../../../shared/models/blob';
-import { formatDocumentType, formatFileSize } from '../../../utils/file';
+import {
+  formatDocumentType,
+  formatFileSize,
+  removeFileExtension,
+} from '../../../utils/file';
 import { formatDate } from '../../../utils/date';
 
 @Component({
@@ -21,6 +25,7 @@ export class DownloadListComponent {
   prefixedBlobs = input.required<PrefixedBlobProperties[]>();
   blobs = computed(() => this.prefixedBlobs().flatMap((data) => data.blobs));
 
+  getFormattedName = (fileName: string) => removeFileExtension(fileName);
   getFormattedSize = (size: number) => formatFileSize(size);
   getFormattedDate = (date: string) => formatDate(date);
   getFormattedDocumentType = (documentType: AllowedContentType) =>
