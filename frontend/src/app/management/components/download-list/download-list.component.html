@@ -9,12 +9,19 @@
     columnMode="flex"
   >
     <ngx-datatable-column
+      prop="name"
       [flexGrow]="1"
       [headerClass]="'font-semibold'"
       [draggable]="false"
     >
-      <ng-template ngx-datatable-header-template let-column="column">
-        <div class="px-4 py-2">Name</div>
+      <ng-template
+        ngx-datatable-header-template
+        let-column="column"
+        let-sort="sortFn"
+      >
+        <div class="px-4 py-2 datatable-header-cell-wrapper" (click)="sort()">
+          Name
+        </div>
       </ng-template>
       <ng-template let-value="row" ngx-datatable-cell-template>
         <div class="px-4">{{ getFormattedName(value.name) }}</div>
@@ -22,13 +29,20 @@
     </ngx-datatable-column>
 
     <ngx-datatable-column
+      prop="contentType"
       [flexGrow]="1"
       [draggable]="false"
       [headerClass]="'font-semibold text-center'"
       [cellClass]="'font-semibold text-center text-prussian-blue'"
     >
-      <ng-template ngx-datatable-header-template let-column="column">
-        <div class="px-4 py-2">Inhaltstyp</div>
+      <ng-template
+        ngx-datatable-header-template
+        let-column="column"
+        let-sort="sortFn"
+      >
+        <div class="px-4 py-2 datatable-header-cell-wrapper" (click)="sort()">
+          Inhaltstyp
+        </div>
       </ng-template>
       <ng-template let-value="row" ngx-datatable-cell-template>
         <div class="px-4">
@@ -38,12 +52,19 @@
     </ngx-datatable-column>
 
     <ngx-datatable-column
+      prop="size"
       [draggable]="false"
       [flexGrow]="1"
       [headerClass]="'font-semibold'"
     >
-      <ng-template ngx-datatable-header-template let-column="column">
-        <div class="px-4 py-2">Größe</div>
+      <ng-template
+        ngx-datatable-header-template
+        let-column="column"
+        let-sort="sortFn"
+      >
+        <div class="px-4 py-2 datatable-header-cell-wrapper" (click)="sort()">
+          Größe
+        </div>
       </ng-template>
       <ng-template let-value="row" ngx-datatable-cell-template>
         <div class="px-4">{{ getFormattedSize(value.size) }}</div>
@@ -51,12 +72,19 @@
     </ngx-datatable-column>
 
     <ngx-datatable-column
+      prop="createdOn"
       [draggable]="false"
       [flexGrow]="1"
       [headerClass]="'font-semibold'"
     >
-      <ng-template ngx-datatable-header-template let-column="column">
-        <div class="px-4 py-2">Erstellt am</div>
+      <ng-template
+        ngx-datatable-header-template
+        let-column="column"
+        let-sort="sortFn"
+      >
+        <div class="px-4 py-2 datatable-header-cell-wrapper" (click)="sort()">
+          Erstellt am
+        </div>
       </ng-template>
       <ng-template let-value="row" ngx-datatable-cell-template>
         <div class="px-4">{{ getFormattedDate(value.createdOn) }}</div>
