@@ -4,7 +4,6 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import {
   AllowedContentType,
-  CustomBlobProperties,
   PrefixedBlobProperties,
 } from '../../../shared/models/blob';
 import {
