@@ -1,42 +1,84 @@
-<ngx-datatable [rows]="blobs()">
-  <ngx-datatable-column name="Name" prop="name">
-    <ng-template let-value="row" ngx-datatable-cell-template>
-      <div>{{ getFormattedName(value.name) }}</div>
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="Inhaltstyp" prop="contentType">
-    <ng-template let-value="row" ngx-datatable-cell-template>
-      <div>{{ getFormattedDocumentType(value.contentType) }}</div>
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="Größe" prop="size">
-    <ng-template let-value="row" ngx-datatable-cell-template>
-      <div>{{ getFormattedSize(value.size) }}</div>
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="Erstellt am" prop="createdOn">
-    <ng-template let-value="row" ngx-datatable-cell-template>
-      <div>{{ getFormattedDate(value.createdOn) }}</div>
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="Url" prop="url">
-    <ng-template let-value="row" ngx-datatable-cell-template>
-      <a [href]="value.url" target="_blank">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-4 h-4 text-prussian-blue"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"
-          />
-        </svg>
-      </a>
-    </ng-template>
-  </ngx-datatable-column>
-</ngx-datatable>
+<div class="relative max-w-7xl mx-auto px-6">
+  <ngx-datatable
+    class="bg-white rounded-xl shadow-sm"
+    [rows]="blobs()"
+    [rowHeight]="50"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    columnMode="flex"
+  >
+    <ngx-datatable-column
+      name="Name"
+      prop="name"
+      [flexGrow]="1"
+      [headerClass]="'font-semibold'"
+      [draggable]="false"
+    >
+      <ng-template let-value="row" ngx-datatable-cell-template>
+        <div>{{ getFormattedName(value.name) }}</div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column
+      name="Inhaltstyp"
+      prop="contentType"
+      [flexGrow]="1"
+      [draggable]="false"
+      [headerClass]="'font-semibold text-center'"
+      [cellClass]="'font-semibold text-center text-prussian-blue'"
+    >
+      <ng-template let-value="row" ngx-datatable-cell-template>
+        <div>
+          {{ getFormattedDocumentType(value.contentType) }}
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column
+      name="Größe"
+      prop="size"
+      [draggable]="false"
+      [flexGrow]="1"
+      [headerClass]="'font-semibold'"
+    >
+      <ng-template let-value="row" ngx-datatable-cell-template>
+        <div>{{ getFormattedSize(value.size) }}</div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column
+      name="Erstellt am"
+      prop="createdOn"
+      [draggable]="false"
+      [flexGrow]="1"
+      [headerClass]="'font-semibold'"
+    >
+      <ng-template let-value="row" ngx-datatable-cell-template>
+        <div>{{ getFormattedDate(value.createdOn) }}</div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column
+      name="Url"
+      prop="url"
+      [draggable]="false"
+      [flexGrow]="1"
+      [headerClass]="'font-semibold'"
+    >
+      <ng-template let-value="row" ngx-datatable-cell-template>
+        <a class="block" [href]="value.url" target="_blank">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-4 h-4 text-prussian-blue"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"
+            />
+          </svg>
+        </a>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+</div>
