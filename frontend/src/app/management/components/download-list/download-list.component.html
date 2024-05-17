@@ -1,58 +1,65 @@
 <div class="relative max-w-7xl mx-auto px-6">
   <ngx-datatable
-    class="bg-white rounded-xl shadow-sm"
+    class="bg-white rounded-xl overflow-hidden shadow-sm"
     [rows]="blobs()"
-    [rowHeight]="50"
-    [headerHeight]="50"
-    [footerHeight]="50"
+    [rowHeight]="48"
+    [headerHeight]="48"
+    [footerHeight]="48"
     [rowClass]="getRowClass"
     columnMode="flex"
   >
     <ngx-datatable-column
-      name="Name"
-      prop="name"
       [flexGrow]="1"
       [headerClass]="'font-semibold'"
       [draggable]="false"
     >
+      <ng-template ngx-datatable-header-template let-column="column">
+        <div class="px-4 py-2">Name</div>
+      </ng-template>
       <ng-template let-value="row" ngx-datatable-cell-template>
-        <div>{{ getFormattedName(value.name) }}</div>
+        <div class="px-4">{{ getFormattedName(value.name) }}</div>
       </ng-template>
     </ngx-datatable-column>
+
     <ngx-datatable-column
-      name="Inhaltstyp"
-      prop="contentType"
       [flexGrow]="1"
       [draggable]="false"
       [headerClass]="'font-semibold text-center'"
       [cellClass]="'font-semibold text-center text-prussian-blue'"
     >
+      <ng-template ngx-datatable-header-template let-column="column">
+        <div class="px-4 py-2">Inhaltstyp</div>
+      </ng-template>
       <ng-template let-value="row" ngx-datatable-cell-template>
-        <div>
+        <div class="px-4">
           {{ getFormattedDocumentType(value.contentType) }}
         </div>
       </ng-template>
     </ngx-datatable-column>
+
     <ngx-datatable-column
-      name="Größe"
-      prop="size"
       [draggable]="false"
       [flexGrow]="1"
       [headerClass]="'font-semibold'"
     >
+      <ng-template ngx-datatable-header-template let-column="column">
+        <div class="px-4 py-2">Größe</div>
+      </ng-template>
       <ng-template let-value="row" ngx-datatable-cell-template>
-        <div>{{ getFormattedSize(value.size) }}</div>
+        <div class="px-4">{{ getFormattedSize(value.size) }}</div>
       </ng-template>
     </ngx-datatable-column>
+
     <ngx-datatable-column
-      name="Erstellt am"
-      prop="createdOn"
       [draggable]="false"
       [flexGrow]="1"
       [headerClass]="'font-semibold'"
     >
+      <ng-template ngx-datatable-header-template let-column="column">
+        <div class="px-4 py-2">Erstellt am</div>
+      </ng-template>
       <ng-template let-value="row" ngx-datatable-cell-template>
-        <div>{{ getFormattedDate(value.createdOn) }}</div>
+        <div class="px-4">{{ getFormattedDate(value.createdOn) }}</div>
       </ng-template>
     </ngx-datatable-column>
 
@@ -63,7 +70,7 @@
       [headerClass]="'font-semibold'"
     >
       <ng-template ngx-datatable-header-template let-column="column">
-        <div class="p-2">Aktionen</div>
+        <div class="px-4 py-2">Aktionen</div>
       </ng-template>
       <ng-template ngx-datatable-cell-template let-row="row">
         <div class="flex gap-4 p-2 h-12 items-center">
