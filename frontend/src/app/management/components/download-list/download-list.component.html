@@ -57,15 +57,16 @@
     </ngx-datatable-column>
 
     <ngx-datatable-column
-      name="Aktionen"
-      prop="url"
       [draggable]="false"
       [sortable]="false"
       [flexGrow]="0.5"
       [headerClass]="'font-semibold'"
     >
+      <ng-template ngx-datatable-header-template let-column="column">
+        <div class="p-2">Aktionen</div>
+      </ng-template>
       <ng-template ngx-datatable-cell-template let-row="row">
-        <div class="flex gap-4 p-1">
+        <div class="flex gap-4 p-2 h-12 items-center">
           <button
             class="p-2 rounded outline outline-1 outline-slate-200 text-prussian-blue"
           >
