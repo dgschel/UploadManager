@@ -1,6 +1,6 @@
 <div class="relative max-w-7xl mx-auto px-6">
   <ngx-datatable
-    class="bg-white rounded-xl overflow-hidden shadow-sm"
+    class="bg-white rounded-xl overflow-hidden shadow-sm text-prussian-blue"
     [rows]="blobs()"
     [rowHeight]="48"
     [headerHeight]="48"
@@ -53,8 +53,10 @@
         </div>
       </ng-template>
       <ng-template let-value="row" ngx-datatable-cell-template>
-        <div class="flex items-center justify-center px-4 h-[48px]">
-          {{ getFormattedDocumentType(value.contentType) }}
+        <div class="flex items-center text-center justify-center h-[48px]">
+          <span class="min-w-20 bg-prussian-blue/5 text-prussian-blue rounded">
+            {{ getFormattedDocumentType(value.contentType) }}
+          </span>
         </div>
       </ng-template>
     </ngx-datatable-column>
