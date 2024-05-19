@@ -7,11 +7,17 @@ import { environment } from '../../../../environments/environment';
 import { LoadingComponent } from '../../../shared/components/loading/loading.component';
 import { HttpResultWrapper } from '../../../shared/models/http';
 import { filterItemsBySearchQuery } from '../../../utils/filter';
+import { SearchComponent } from '../../components/search/search.component';
 
 @Component({
   selector: 'app-download',
   standalone: true,
-  imports: [HttpClientModule, LoadingComponent, DownloadListComponent],
+  imports: [
+    HttpClientModule,
+    LoadingComponent,
+    DownloadListComponent,
+    SearchComponent,
+  ],
   templateUrl: './download.component.html',
   styleUrl: './download.component.scss',
 })
@@ -366,8 +372,8 @@ export class DownloadComponent implements OnInit {
       ],
     },
   ];
+  searchQuery = signal<string>('');
   isLoading = signal<boolean>(false);
-  searchQuery = signal<string>('', {});
   prefixedBlobs = signal<PrefixedBlobProperties[]>(this.data as any);
   filteredPrefixedBlobs = computed(() => {
     const query = this.searchQuery().toLowerCase();
@@ -389,8 +395,8 @@ export class DownloadComponent implements OnInit {
     // });
   }
 
-  onSearchQueryUpdated(value: string): void {
-    this.searchQuery.set(value);
+  onSearchUpdated(query: string): void {
+    this.searchQuery.set(query);
   }
 
   private handleFetchSuccess(

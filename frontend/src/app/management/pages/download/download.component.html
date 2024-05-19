@@ -1,7 +1,9 @@
 <div class="relative min-h-[calc(100vh-5rem)]">
   <div class="absolute inset-0 -z-10 -top-20 bg-gray-50"></div>
-  <input type="text" #searchQuery (input)="onSearchQueryUpdated(searchQuery.value)" />
+  <app-search (searchQuery)="onSearchUpdated($event)"></app-search>
   <app-loading [isLoading]="isLoading()">
-    <app-download-list [prefixedBlobs]="filteredPrefixedBlobs()"></app-download-list>
+    <app-download-list
+      [prefixedBlobs]="filteredPrefixedBlobs()"
+    ></app-download-list>
   </app-loading>
 </div>
