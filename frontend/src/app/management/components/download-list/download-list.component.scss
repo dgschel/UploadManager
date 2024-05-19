@@ -15,6 +15,15 @@
   content: '\2193';
 }
 
+:host ::ng-deep .ngx-datatable .datatable-footer .datatable-pager {
+  flex: none;
+}
+
+:host ::ng-deep .datatable-footer .datatable-pager .pager {
+  display: flex !important;
+  gap: .5rem;
+}
+
 :host ::ng-deep .datatable-pager .pager .datatable-icon-prev::before {
   content: '\21E4';
 }
