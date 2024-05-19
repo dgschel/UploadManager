@@ -6,7 +6,7 @@ import { PrefixedBlobProperties } from '../../../shared/models/blob';
 import { environment } from '../../../../environments/environment';
 import { LoadingComponent } from '../../../shared/components/loading/loading.component';
 import { HttpResultWrapper } from '../../../shared/models/http';
-import { formatDate } from '../../../utils/date';
+import { filterItemsBySearchQuery } from '../../../utils/filter';
 
 @Component({
   selector: 'app-download',
@@ -366,22 +366,20 @@ export class DownloadComponent implements OnInit {
       ],
     },
   ];
+  isLoading = signal<boolean>(false);
+  searchQuery = signal<string>('', {});
   prefixedBlobs = signal<PrefixedBlobProperties[]>(this.data as any);
   filteredPrefixedBlobs = computed(() => {
-    const query = this.searchQuery().toLowerCase();
     return this.prefixedBlobs().map((prefixedBlob) => {
       return {
         ...prefixedBlob,
-        blobs: prefixedBlob.blobs.filter(
-          (blob) =>
-            blob.name.toLowerCase().includes(query) ||
-            formatDate(blob.createdOn).toLowerCase().includes(query)
+        blobs: filterItemsBySearchQuery(
+          prefixedBlob.blobs,
+          this.searchQuery().toLowerCase()
         ),
       };
     });
   });
-  isLoading = signal<boolean>(false);
-  searchQuery = signal<string>('');
 
   constructor(private http: HttpClient) {}
 
