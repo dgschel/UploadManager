@@ -181,27 +181,30 @@
         let-curPage="curPage"
         let-offset="offset"
       >
-        <div class="flex justify-between">
-          <div>{{ rowCount }}</div>
-        </div>
-        <datatable-pager
-          [count]="rowCount"
-          [page]="page"
-          [size]="pageSize"
-          (change)="table.onFooterPage($event)"
-          [pagerLeftArrowIcon]="'datatable-icon-left'"
-          [pagerPreviousIcon]="'datatable-icon-prev'"
-          [pagerRightArrowIcon]="'datatable-icon-right'"
-          [pagerNextIcon]="'datatable-icon-next'"
-        >
-          <div class="datatable-pager">
-            <ul class="pager">
-              <li class="pages active" role="button" aria-label="next">
-                <a href="javascript:void(0)"> Next </a>
-              </li>
-            </ul>
+        <div class="flex justify-between w-full px-4">
+          <div class="flex justify-between">
+            <div>{{ rowCount }}</div>
           </div>
-        </datatable-pager>
+          <!-- Override icons with custom CSS-Code -->
+          <datatable-pager
+            [count]="rowCount"
+            [page]="page"
+            [size]="pageSize"
+            (change)="table.onFooterPage($event)"
+            [pagerLeftArrowIcon]="'datatable-icon-left'"
+            [pagerPreviousIcon]="'datatable-icon-prev'"
+            [pagerRightArrowIcon]="'datatable-icon-right'"
+            [pagerNextIcon]="'datatable-icon-next'"
+          >
+            <div class="datatable-pager">
+              <ul class="pager">
+                <li class="pages active" role="button" aria-label="next">
+                  <a href="javascript:void(0)"> Next </a>
+                </li>
+              </ul>
+            </div>
+          </datatable-pager>
+        </div>
       </ng-template>
     </ngx-datatable-footer>
   </ngx-datatable>
