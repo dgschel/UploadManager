@@ -4,7 +4,6 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import {
   AllowedContentType,
-  CustomBlobProperties,
   PrefixedBlobProperties,
 } from '../../../shared/models/blob';
 import {
@@ -24,6 +23,8 @@ import { formatDate } from '../../../utils/date';
 export class DownloadListComponent {
   prefixedBlobs = input.required<PrefixedBlobProperties[]>();
   blobs = computed(() => this.prefixedBlobs().flatMap((data) => data.blobs));
+
+  getRowClass = () => 'transition-all duration-200 hover:bg-picton-blue/10';
 
   getFormattedName = (fileName: string) => removeFileExtension(fileName);
   getFormattedSize = (size: number) => formatFileSize(size);

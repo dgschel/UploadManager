@@ -1,0 +1,15 @@
+:host ::ng-deep .datatable-header-cell-template-wrap {
+  display: flex;
+  align-items: center;
+}
+
+:host ::ng-deep .sort-btn {
+  margin-left: -0.5rem;
+}
+
+:host ::ng-deep .sort-btn.datatable-icon-up.sort-asc::before {
+  content: '\2191';
+}
+:host ::ng-deep .sort-btn.datatable-icon-down.sort-desc::before {
+  content: '\2193';
+}
