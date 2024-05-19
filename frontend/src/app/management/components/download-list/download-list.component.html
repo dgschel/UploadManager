@@ -181,8 +181,10 @@
         let-offset="offset"
       >
         <div class="flex justify-between w-full px-4">
-          <div class="flex justify-between">
-            <div>{{ rowCount }}</div>
+          <div class="flex gap-2">
+            <span> {{ curPage }} von {{ pageSize }} </span>
+            <span> &#x2022; </span>
+            <span> {{ rowCount }} Einträge </span>
           </div>
           <!-- Override icons with custom CSS-Code -->
           <datatable-pager
