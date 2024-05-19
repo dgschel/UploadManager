@@ -19,6 +19,10 @@
   flex: none;
 }
 
+:host ::ng-deep .datatable-footer {
+  border-top: rgb(241 245 249) 1px solid;
+}
+
 :host ::ng-deep .datatable-footer .datatable-pager .pager li {
   border-radius: 0.25rem;
 
