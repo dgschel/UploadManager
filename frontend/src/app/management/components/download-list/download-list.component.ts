@@ -33,10 +33,10 @@ export class DownloadListComponent implements AfterViewInit {
   prefixedBlobs = input.required<PrefixedBlobProperties[]>();
   blobs = computed(() => this.prefixedBlobs().flatMap((data) => data.blobs));
 
-  @ViewChild('pager') footer: DataTablePagerComponent | undefined;
+  @ViewChild('pager') pager: DataTablePagerComponent | undefined;
 
   ngAfterViewInit(): void {
-    this.footer?.selectPage(1);
+    this.pager?.selectPage(1);
   }
 
   getRowClass = () => 'transition-all duration-200 hover:bg-gray-100';
