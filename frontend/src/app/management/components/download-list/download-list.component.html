@@ -20,7 +20,7 @@
         let-sort="sortFn"
       >
         <div
-          class="px-4 py-2 h-[48px] datatable-header-cell-wrapper"
+          class="px-4 py-2 h-[48px] flex items-center datatable-header-cell-wrapper"
           (click)="sort()"
         >
           Name
@@ -53,7 +53,7 @@
         </div>
       </ng-template>
       <ng-template let-value="row" ngx-datatable-cell-template>
-        <div class="flex items-center text-center justify-center h-[48px]">
+        <div class="flex px-4 py-2 items-center text-center h-[48px]">
           <span class="min-w-20 bg-prussian-blue/5 text-prussian-blue rounded">
             {{ getFormattedDocumentType(value.contentType) }}
           </span>
