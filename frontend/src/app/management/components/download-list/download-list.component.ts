@@ -1,6 +1,15 @@
-import { Component, computed, input } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ViewChild,
+  computed,
+  input,
+} from '@angular/core';
 
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import {
+  DataTablePagerComponent,
+  NgxDatatableModule,
+} from '@swimlane/ngx-datatable';
 
 import {
   AllowedContentType,
@@ -20,9 +29,15 @@ import { formatDate } from '../../../utils/date';
   templateUrl: './download-list.component.html',
   styleUrl: './download-list.component.scss',
 })
-export class DownloadListComponent {
+export class DownloadListComponent implements AfterViewInit {
   prefixedBlobs = input.required<PrefixedBlobProperties[]>();
   blobs = computed(() => this.prefixedBlobs().flatMap((data) => data.blobs));
+
+  @ViewChild('pager') footer: DataTablePagerComponent | undefined;
+
+  ngAfterViewInit(): void {
+    this.footer?.selectPage(1);
+  }
 
   getRowClass = () => 'transition-all duration-200 hover:bg-gray-100';
 
