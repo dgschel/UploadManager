@@ -10,6 +10,23 @@
 :host ::ng-deep .sort-btn.datatable-icon-up.sort-asc::before {
   content: '\2191';
 }
+
 :host ::ng-deep .sort-btn.datatable-icon-down.sort-desc::before {
   content: '\2193';
+}
+
+:host ::ng-deep .datatable-pager .pager .datatable-icon-prev::before {
+  content: '\21E4';
+}
+
+:host ::ng-deep .datatable-pager .pager .datatable-icon-right::before {
+  content: '\2192';
+}
+
+:host ::ng-deep .datatable-pager .pager .datatable-icon-next::before {
+  content: '\21E5';
+}
+
+:host ::ng-deep .datatable-pager .pager .datatable-icon-left::before {
+  content: '\2190';
 }

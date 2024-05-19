@@ -1,11 +1,13 @@
 <div class="relative max-w-7xl mx-auto px-6">
   <ngx-datatable
+    #table
     class="bg-white rounded-xl overflow-hidden shadow-sm"
     [rows]="blobs()"
     [rowHeight]="48"
     [headerHeight]="48"
     [footerHeight]="48"
     [rowClass]="getRowClass"
+    [limit]="10"
     columnMode="flex"
   >
     <ngx-datatable-column
@@ -173,6 +175,7 @@
         ngx-datatable-footer-template
         let-rowCount="rowCount"
         let-page="page"
+        let-pageSize="pageSize"
         let-rowCountSelected="rowCountSelected"
         let-rowCountTotal="rowCountTotal"
         let-curPage="curPage"
@@ -181,6 +184,24 @@
         <div class="flex justify-between">
           <div>{{ rowCount }}</div>
         </div>
+        <datatable-pager
+          [count]="rowCount"
+          [page]="page"
+          [size]="pageSize"
+          (change)="table.onFooterPage($event)"
+          [pagerLeftArrowIcon]="'datatable-icon-left'"
+          [pagerPreviousIcon]="'datatable-icon-prev'"
+          [pagerRightArrowIcon]="'datatable-icon-right'"
+          [pagerNextIcon]="'datatable-icon-next'"
+        >
+          <div class="datatable-pager">
+            <ul class="pager">
+              <li class="pages active" role="button" aria-label="next">
+                <a href="javascript:void(0)"> Next </a>
+              </li>
+            </ul>
+          </div>
+        </datatable-pager>
       </ng-template>
     </ngx-datatable-footer>
   </ngx-datatable>
