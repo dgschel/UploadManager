@@ -8,34 +8,52 @@
 }
 
 :host ::ng-deep .sort-btn.datatable-icon-up.sort-asc::before {
-  content: '\2191';
+  content: "\2191";
 }
 
 :host ::ng-deep .sort-btn.datatable-icon-down.sort-desc::before {
-  content: '\2193';
+  content: "\2193";
 }
 
 :host ::ng-deep .ngx-datatable .datatable-footer .datatable-pager {
   flex: none;
 }
 
-:host ::ng-deep .datatable-footer .datatable-pager .pager {
-  display: flex !important;
-  gap: .5rem;
+:host ::ng-deep .datatable-footer .datatable-pager .pager li {
+  border-radius: 0.25rem;
+
+  &.disabled {
+    color: #ccc;
+  }
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+}
+
+:host ::ng-deep .datatable-footer .datatable-pager .pager li.active {
+  background-color: #50acd8ff;
+  color: #fff;
+}
+
+:host ::ng-deep .datatable-footer .datatable-pager .pager li a {
+  text-align: center;
+  width: 24px;
+  height: 24px;
 }
 
 :host ::ng-deep .datatable-pager .pager .datatable-icon-prev::before {
-  content: '\21E4';
+  content: "\21E4";
 }
 
 :host ::ng-deep .datatable-pager .pager .datatable-icon-right::before {
-  content: '\2192';
+  content: "\2192";
 }
 
 :host ::ng-deep .datatable-pager .pager .datatable-icon-next::before {
-  content: '\21E5';
+  content: "\21E5";
 }
 
 :host ::ng-deep .datatable-pager .pager .datatable-icon-left::before {
-  content: '\2190';
+  content: "\2190";
 }
