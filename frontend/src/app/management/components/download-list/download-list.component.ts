@@ -24,7 +24,7 @@ export class DownloadListComponent {
   prefixedBlobs = input.required<PrefixedBlobProperties[]>();
   blobs = computed(() => this.prefixedBlobs().flatMap((data) => data.blobs));
 
-  getRowClass = () => 'transition-all duration-200 hover:bg-picton-blue/10';
+  getRowClass = () => 'transition-all duration-200 hover:bg-gray-100';
 
   getFormattedName = (fileName: string) => removeFileExtension(fileName);
   getFormattedSize = (size: number) => formatFileSize(size);
