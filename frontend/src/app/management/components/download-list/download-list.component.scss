@@ -3,12 +3,16 @@
   align-items: center;
 }
 
+:host ::ng-deep .datatable-body {
+  min-height: 500px;
+}
+
 :host ::ng-deep .sort-btn {
   margin-left: -0.5rem;
 }
 
 :host ::ng-deep .empty-row {
-  padding: .25rem 1rem;
+  padding: 0.25rem 1rem;
 }
 
 :host ::ng-deep .sort-btn.datatable-icon-up.sort-asc::before {
