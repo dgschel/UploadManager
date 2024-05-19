@@ -42,6 +42,7 @@
 
 :host ::ng-deep .datatable-footer .datatable-pager .pager li a {
   text-align: center;
+  place-content: center;
   width: 24px;
   height: 24px;
 }

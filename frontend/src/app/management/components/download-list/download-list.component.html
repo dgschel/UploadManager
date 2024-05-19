@@ -23,7 +23,7 @@
         let-sort="sortFn"
       >
         <div
-          class="px-4 py-2 h-[48px] flex items-center datatable-header-cell-wrapper"
+          class="px-4 py-2 h-[48px] flex items-center datatable-header-cell-wrapper text-sm place-content-center"
           (click)="sort()"
         >
           Name
@@ -50,7 +50,7 @@
         let-sort="sortFn"
       >
         <div
-          class="px-4 py-2 h-[48px] datatable-header-cell-wrapper"
+          class="px-4 py-2 h-[48px] datatable-header-cell-wrapper text-sm place-content-center"
           (click)="sort()"
         >
           Inhaltstyp
@@ -78,7 +78,7 @@
         let-sort="sortFn"
       >
         <div
-          class="px-4 py-2 h-[48px] datatable-header-cell-wrapper"
+          class="px-4 py-2 h-[48px] datatable-header-cell-wrapper text-sm place-content-center"
           (click)="sort()"
         >
           Größe
@@ -104,7 +104,7 @@
         let-sort="sortFn"
       >
         <div
-          class="px-4 py-2 h-[48px] datatable-header-cell-wrapper"
+          class="px-4 py-2 h-[48px] datatable-header-cell-wrapper text-sm place-content-center"
           (click)="sort()"
         >
           Erstellt am
@@ -125,7 +125,9 @@
       [headerClass]="'font-semibold'"
     >
       <ng-template ngx-datatable-header-template let-column="column">
-        <div class="px-2 py-2 h-[48px]">Aktionen</div>
+        <div class="px-2 py-2 h-[48px] text-sm place-content-center">
+          Aktionen
+        </div>
       </ng-template>
       <ng-template ngx-datatable-cell-template let-row="row">
         <div class="flex gap-4 p-2 h-12 items-center">
@@ -180,7 +182,7 @@
         let-curPage="curPage"
         let-offset="offset"
       >
-        <div class="flex justify-between w-full px-4">
+        <div class="flex justify-between items-center w-full px-4 text-sm">
           <div class="flex gap-2">
             <span> {{ curPage }} von {{ pageSize }} </span>
             <span> &#x2022; </span>
@@ -197,13 +199,6 @@
             [pagerRightArrowIcon]="'datatable-icon-right'"
             [pagerNextIcon]="'datatable-icon-next'"
           >
-            <div class="datatable-pager">
-              <ul class="pager">
-                <li class="pages active" role="button" aria-label="next">
-                  <a href="javascript:void(0)"> Next </a>
-                </li>
-              </ul>
-            </div>
           </datatable-pager>
         </div>
       </ng-template>
