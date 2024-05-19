@@ -370,13 +370,11 @@ export class DownloadComponent implements OnInit {
   searchQuery = signal<string>('', {});
   prefixedBlobs = signal<PrefixedBlobProperties[]>(this.data as any);
   filteredPrefixedBlobs = computed(() => {
+    const query = this.searchQuery().toLowerCase();
     return this.prefixedBlobs().map((prefixedBlob) => {
       return {
         ...prefixedBlob,
-        blobs: filterItemsBySearchQuery(
-          prefixedBlob.blobs,
-          this.searchQuery().toLowerCase()
-        ),
+        blobs: filterItemsBySearchQuery(prefixedBlob.blobs, query),
       };
     });
   });
