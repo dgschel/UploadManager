@@ -2,6 +2,7 @@
   <ngx-datatable
     #table
     class="bg-white rounded-xl overflow-hidden shadow-sm"
+    [messages]="{ emptyMessage: 'Keine Dateien gefunden' }"
     [rows]="blobs()"
     [rowHeight]="48"
     [headerHeight]="48"
