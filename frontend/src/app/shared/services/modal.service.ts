@@ -34,10 +34,12 @@ export class ModalService {
 
     // Attach the component to the application so it can be checked by angular
     this.appRef.attachView(this.modalCompRef.hostView);
+
+    return this.modalCompRef;
   }
 
-  open(templateRef: TemplateRef<any>): void {
-    this.createComponent(templateRef);
+  open(templateRef: TemplateRef<any>): ComponentRef<ModalComponent> {
+    return this.createComponent(templateRef);
   }
 
   close(): void {
