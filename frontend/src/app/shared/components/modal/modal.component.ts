@@ -11,23 +11,28 @@ import { LoadingComponent } from '../loading/loading.component';
   styleUrl: './modal.component.scss',
 })
 export class ModalComponent {
-  constructor(private modalService: ModalService) {}
+  onClose = new Subject<void>();
 
-  approve() {
-    // return this.mockHttpCall().pipe(finalize(() => this.modalService.close()));
-    return this.mockHttpCall();
+  close() {
+    console.log('Modal Closing...');
+    this.onClose.next();
   }
 
-  mockHttpCall(): Observable<string> {
-    return new Observable<string>((observer) => {
-      setTimeout(() => {
-        observer.next('Mock response');
-        observer.complete();
-      }, 3000);
-    });
-  }
+  // approve() {
+  //   // return this.mockHttpCall().pipe(finalize(() => this.modalService.close()));
+  //   return this.mockHttpCall();
+  // }
 
-  cancel(): void {
-    this.modalService.close();
-  }
+  // mockHttpCall(): Observable<string> {
+  //   return new Observable<string>((observer) => {
+  //     setTimeout(() => {
+  //       observer.next('Mock response');
+  //       observer.complete();
+  //     }, 3000);
+  //   });
+  // }
+
+  // cancel(): void {
+  //   this.modalService.close();
+  // }
 }

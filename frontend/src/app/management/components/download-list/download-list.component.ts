@@ -2,10 +2,13 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  EnvironmentInjector,
+  Injector,
   TemplateRef,
   ViewChild,
   ViewContainerRef,
   computed,
+  createComponent,
   input,
 } from '@angular/core';
 
@@ -25,6 +28,7 @@ import {
 } from '../../../utils/file';
 import { formatDate } from '../../../utils/date';
 import { ModalService } from '../../../shared/services/modal.service';
+import { TestComponent } from '../../../test/test.component';
 
 @Component({
   selector: 'app-download-list',
@@ -38,9 +42,11 @@ export class DownloadListComponent implements AfterViewInit {
   blobs = computed(() => this.prefixedBlobs().flatMap((data) => data.blobs));
 
   @ViewChild('pager') pager: DataTablePagerComponent | undefined;
-  @ViewChild('actions', { read: TemplateRef }) actions!: TemplateRef<any>;
 
-  constructor(private modalService: ModalService) {}
+  constructor(
+    private modalService: ModalService,
+    private injector: EnvironmentInjector
+  ) {}
 
   ngAfterViewInit(): void {
     this.pager?.selectPage(1);
@@ -48,9 +54,21 @@ export class DownloadListComponent implements AfterViewInit {
 
   deleteBlob = (blob: PrefixedBlobProperties) => {
     console.log('Deleting blob...', blob);
-    this.modalService.open(this.actions)?.subscribe({
-      next: (message: string) => console.log(message),
+    const comp = createComponent(TestComponent, {
+      environmentInjector: this.injector,
     });
+    console.log(comp);
+
+    comp.instance.ConfirmSubject.subscribe({
+      next: (message: string) => {
+        console.log('inside table', message);
+        this.modalService.close();
+      },
+    });
+
+    this.modalService
+      .open(comp.instance.actions as TemplateRef<any>)
+      ?.subscribe({ next: () => console.log('Modal is closing') });
   };
 
   onDelete = () => {

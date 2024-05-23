@@ -32,11 +32,11 @@ export class ModalService {
     this.appRef.attachView(this.componentRef.hostView);
   }
 
-  open<T>(templateRef: TemplateRef<T>) {
-    console.log('Opening modal', templateRef);
+  open(templateRef: TemplateRef<any>) {
     this.createComponent(templateRef);
 
-    return this.componentRef?.instance.approve();
+    return this.componentRef?.instance.onClose;
+    // return this.componentRef?.instance.approve();
   }
 
   close(): void {
