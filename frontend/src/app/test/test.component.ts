@@ -20,6 +20,9 @@ export class TestComponent {
     | TemplateRef<any>
     | undefined;
 
+  private startSubject = new Subject<boolean>();
+  start$: Observable<boolean> = this.startSubject.asObservable();
+
   private submitSubject = new Subject<string>();
   submit$: Observable<string> = this.submitSubject.asObservable();
 
@@ -27,10 +30,13 @@ export class TestComponent {
   @Output() onClose: EventEmitter<void> = this.closeEvent;
 
   protected submit(): void {
+    this.startSubject.next(true);
+
     of('Mock HTTP request complete!')
-      .pipe(delay(2000))
+      .pipe(delay(5000))
       .subscribe((message) => {
         this.submitSubject.next(message);
+        this.startSubject.next(false);
       });
   }
 
