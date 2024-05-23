@@ -1,11 +1,9 @@
 import {
   ApplicationRef,
   ComponentRef,
-  ElementRef,
   EnvironmentInjector,
   Injectable,
   TemplateRef,
-  ViewContainerRef,
   createComponent,
 } from '@angular/core';
 import { ModalComponent } from '../components/modal/modal.component';
@@ -14,7 +12,7 @@ import { ModalComponent } from '../components/modal/modal.component';
   providedIn: 'root',
 })
 export class ModalService {
-  componentRef: ComponentRef<ModalComponent> | undefined;
+  modalCompRef: ComponentRef<ModalComponent> | undefined;
 
   constructor(
     private appRef: ApplicationRef,
@@ -23,23 +21,23 @@ export class ModalService {
 
   createComponent(content: TemplateRef<any>) {
     const myContent = content.createEmbeddedView(null);
-    this.componentRef = createComponent(ModalComponent, {
+    this.modalCompRef = createComponent(ModalComponent, {
       environmentInjector: this.injector,
       projectableNodes: [myContent.rootNodes],
     });
 
-    document.body.appendChild(this.componentRef.location.nativeElement);
-    this.appRef.attachView(this.componentRef.hostView);
+    document.body.appendChild(this.modalCompRef.location.nativeElement);
+    this.appRef.attachView(this.modalCompRef.hostView);
   }
 
   open(templateRef: TemplateRef<any>) {
     this.createComponent(templateRef);
-
-    return this.componentRef?.instance.onClose;
-    // return this.componentRef?.instance.approve();
   }
 
   close(): void {
-    this.componentRef?.destroy();
+    this.modalCompRef?.destroy();
+    if (this.modalCompRef?.hostView) {
+      this.appRef.detachView(this.modalCompRef?.hostView);
+    }
   }
 }
