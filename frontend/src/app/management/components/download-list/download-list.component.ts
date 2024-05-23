@@ -29,7 +29,6 @@ import {
 import { formatDate } from '../../../utils/date';
 import { ModalService } from '../../../shared/services/modal.service';
 import { TestComponent } from '../../../test/test.component';
-import { ModalViewer } from '../../../shared/models/modal';
 
 @Component({
   selector: 'app-download-list',
