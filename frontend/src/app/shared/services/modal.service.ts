@@ -1,8 +1,10 @@
 import {
   ApplicationRef,
   ComponentRef,
+  ElementRef,
   EnvironmentInjector,
   Injectable,
+  TemplateRef,
   ViewContainerRef,
   createComponent,
 } from '@angular/core';
@@ -19,13 +21,22 @@ export class ModalService {
     private injector: EnvironmentInjector
   ) {}
 
-  open(): void {
+  createComponent(content: TemplateRef<any>) {
+    const myContent = content.createEmbeddedView(null);
     this.componentRef = createComponent(ModalComponent, {
       environmentInjector: this.injector,
+      projectableNodes: [myContent.rootNodes],
     });
 
     document.body.appendChild(this.componentRef.location.nativeElement);
     this.appRef.attachView(this.componentRef.hostView);
+  }
+
+  open<T>(templateRef: TemplateRef<T>) {
+    console.log('Opening modal', templateRef);
+    this.createComponent(templateRef);
+
+    return this.componentRef?.instance.approve();
   }
 
   close(): void {

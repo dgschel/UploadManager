@@ -1,7 +1,10 @@
 import {
   AfterViewInit,
   Component,
+  ElementRef,
+  TemplateRef,
   ViewChild,
+  ViewContainerRef,
   computed,
   input,
 } from '@angular/core';
@@ -21,6 +24,7 @@ import {
   removeFileExtension,
 } from '../../../utils/file';
 import { formatDate } from '../../../utils/date';
+import { ModalService } from '../../../shared/services/modal.service';
 
 @Component({
   selector: 'app-download-list',
@@ -34,10 +38,28 @@ export class DownloadListComponent implements AfterViewInit {
   blobs = computed(() => this.prefixedBlobs().flatMap((data) => data.blobs));
 
   @ViewChild('pager') pager: DataTablePagerComponent | undefined;
+  @ViewChild('actions', { read: TemplateRef }) actions!: TemplateRef<any>;
+
+  constructor(private modalService: ModalService) {}
 
   ngAfterViewInit(): void {
     this.pager?.selectPage(1);
   }
+
+  deleteBlob = (blob: PrefixedBlobProperties) => {
+    console.log('Deleting blob...', blob);
+    this.modalService.open(this.actions)?.subscribe({
+      next: (message: string) => console.log(message),
+    });
+  };
+
+  onDelete = () => {
+    console.log('Deleted blob');
+  };
+
+  onAbort = () => {
+    console.log('Aborted deletion');
+  };
 
   getRowClass = () => 'transition-all duration-200 hover:bg-gray-100';
 
