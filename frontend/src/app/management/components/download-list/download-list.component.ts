@@ -29,6 +29,7 @@ import {
 import { formatDate } from '../../../utils/date';
 import { ModalService } from '../../../shared/services/modal.service';
 import { TestComponent } from '../../../test/test.component';
+import { ModalViewer } from '../../../shared/models/modal';
 
 @Component({
   selector: 'app-download-list',
@@ -54,29 +55,26 @@ export class DownloadListComponent implements AfterViewInit {
 
   deleteBlob = (blob: PrefixedBlobProperties) => {
     console.log('Deleting blob...', blob);
+
     const comp = createComponent(TestComponent, {
       environmentInjector: this.injector,
     });
-    console.log(comp);
 
-    comp.instance.ConfirmSubject.subscribe({
+    comp.instance.submit$.subscribe({
       next: (message: string) => {
-        console.log('inside table', message);
+        console.log('Submitted modal', message);
         this.modalService.close();
       },
     });
 
-    this.modalService
-      .open(comp.instance.actions as TemplateRef<any>)
-      ?.subscribe({ next: () => console.log('Modal is closing') });
-  };
+    comp.instance.onClose.subscribe({
+      next: () => {
+        console.log('Closed modal');
+        this.modalService.close();
+      },
+    });
 
-  onDelete = () => {
-    console.log('Deleted blob');
-  };
-
-  onAbort = () => {
-    console.log('Aborted deletion');
+    this.modalService.open(comp.instance.actionsTemplate as TemplateRef<any>);
   };
 
   getRowClass = () => 'transition-all duration-200 hover:bg-gray-100';
