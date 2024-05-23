@@ -1,30 +1,40 @@
-import { Component, EventEmitter, TemplateRef, ViewChild } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+import { Observable, Subject, delay, of } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-test',
   standalone: true,
-  imports: [],
+  imports: [HttpClientModule],
   templateUrl: './test.component.html',
-  styleUrl: './test.component.scss',
+  styleUrls: ['./test.component.scss'],
 })
 export class TestComponent {
-  @ViewChild('actions', { static: true, read: TemplateRef }) actions:
+  @ViewChild('actions', { static: true, read: TemplateRef }) actionsTemplate:
     | TemplateRef<any>
     | undefined;
 
-  private _confirmSubject = new Subject<string>();
+  private submitSubject = new Subject<string>();
+  submit$: Observable<string> = this.submitSubject.asObservable();
 
-  public get ConfirmSubject(): Observable<string> {
-    return this._confirmSubject.asObservable();
+  private closeEvent = new EventEmitter<void>();
+  @Output() onClose: EventEmitter<void> = this.closeEvent;
+
+  protected submit(): void {
+    of('Mock HTTP request complete!')
+      .pipe(delay(2000))
+      .subscribe((message) => {
+        this.submitSubject.next(message);
+      });
   }
 
-  protected confirm() {
-    console.log('Confirming...');
-    this._confirmSubject.next('Confirmed');
-  }
-
-  protected abort() {
-    throw new Error('Method not implemented.');
+  protected close(): void {
+    this.closeEvent.emit();
   }
 }
