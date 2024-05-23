@@ -73,7 +73,16 @@ export class DownloadListComponent implements AfterViewInit {
       },
     });
 
-    this.modalService.open(comp.instance.actionsTemplate as TemplateRef<any>);
+    const modalRef = this.modalService.open(
+      comp.instance.actionsTemplate as TemplateRef<any>
+    );
+
+    comp.instance.start$.subscribe({
+      next: (isLoading: boolean) => {
+        console.log('Loading...', isLoading);
+        modalRef.instance.isLoading.set(isLoading);
+      },
+    });
   };
 
   getRowClass = () => 'transition-all duration-200 hover:bg-gray-100';
