@@ -1,12 +1,9 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef,
   EnvironmentInjector,
-  Injector,
   TemplateRef,
   ViewChild,
-  ViewContainerRef,
   computed,
   createComponent,
   input,
@@ -28,7 +25,7 @@ import {
 } from '../../../utils/file';
 import { formatDate } from '../../../utils/date';
 import { ModalService } from '../../../shared/services/modal.service';
-import { TestComponent } from '../../../test/test.component';
+import { ConfirmationModalComponent } from '../../../shared/templates/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-download-list',
@@ -55,7 +52,7 @@ export class DownloadListComponent implements AfterViewInit {
   deleteBlob = (blob: PrefixedBlobProperties) => {
     console.log('Deleting blob...', blob);
 
-    const comp = createComponent(TestComponent, {
+    const comp = createComponent(ConfirmationModalComponent, {
       environmentInjector: this.injector,
     });
 
@@ -74,7 +71,7 @@ export class DownloadListComponent implements AfterViewInit {
     });
 
     const modalRef = this.modalService.open(
-      comp.instance.actionsTemplate as TemplateRef<any>
+      comp.instance.containerTemplate as TemplateRef<any>
     );
 
     comp.instance.start$.subscribe({
