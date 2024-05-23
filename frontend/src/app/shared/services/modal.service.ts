@@ -20,17 +20,23 @@ export class ModalService {
   ) {}
 
   createComponent(content: TemplateRef<any>) {
-    const myContent = content.createEmbeddedView(null);
+    // Create an embedded view from the template
+    const modalEmbeddedView = content.createEmbeddedView(null);
+
+    // Create the base modal component
     this.modalCompRef = createComponent(ModalComponent, {
-      environmentInjector: this.injector,
-      projectableNodes: [myContent.rootNodes],
+      environmentInjector: this.injector, // Pass the injector to the component
+      projectableNodes: [modalEmbeddedView.rootNodes], // Pass the nodes to the component to inject the content inside of <ng-template>
     });
 
+    // Append the component to the body
     document.body.appendChild(this.modalCompRef.location.nativeElement);
+
+    // Attach the component to the application so it can be checked by angular
     this.appRef.attachView(this.modalCompRef.hostView);
   }
 
-  open(templateRef: TemplateRef<any>) {
+  open(templateRef: TemplateRef<any>): void {
     this.createComponent(templateRef);
   }
 
