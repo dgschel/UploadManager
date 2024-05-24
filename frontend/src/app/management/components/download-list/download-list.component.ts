@@ -1,11 +1,8 @@
 import {
   AfterViewInit,
   Component,
-  EnvironmentInjector,
-  TemplateRef,
   ViewChild,
   computed,
-  createComponent,
   input,
   output,
 } from '@angular/core';
@@ -26,8 +23,6 @@ import {
   removeFileExtension,
 } from '../../../utils/file';
 import { formatDate } from '../../../utils/date';
-import { ModalService } from '../../../shared/services/modal.service';
-import { ConfirmationModalComponent } from '../../../shared/templates/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-download-list',
@@ -43,47 +38,11 @@ export class DownloadListComponent implements AfterViewInit {
 
   @ViewChild('pager') pager: DataTablePagerComponent | undefined;
 
-  constructor(
-    private modalService: ModalService,
-    private injector: EnvironmentInjector
-  ) {}
-
   ngAfterViewInit(): void {
     this.pager?.selectPage(1);
   }
 
-  deleteBlob = (blob: CustomBlobProperties) => {
-    this.removeBlob.emit(blob);
-
-    const comp = createComponent(ConfirmationModalComponent, {
-      environmentInjector: this.injector,
-    });
-
-    comp.instance.submit$.subscribe({
-      next: (message: string) => {
-        console.log('Submitted modal', message);
-        this.modalService.close();
-      },
-    });
-
-    comp.instance.onClose.subscribe({
-      next: () => {
-        console.log('Closed modal');
-        this.modalService.close();
-      },
-    });
-
-    const modalRef = this.modalService.open(
-      comp.instance.containerTemplate as TemplateRef<any>
-    );
-
-    comp.instance.start$.subscribe({
-      next: (isLoading: boolean) => {
-        console.log('Loading...', isLoading);
-        modalRef.instance.isLoading.set(isLoading);
-      },
-    });
-  };
+  deleteBlob = (blob: CustomBlobProperties) => this.removeBlob.emit(blob); // TODO: pass blob to confirmation modal. Use blob.name as filename
 
   getRowClass = () => 'transition-all duration-200 hover:bg-gray-100';
 
