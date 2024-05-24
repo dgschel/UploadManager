@@ -15,7 +15,7 @@ export async function deleteFile(request: HttpRequest, context: InvocationContex
   try {
     // Validate the JWT token and retrieve the sub claim
     // The sub claim is the unique identifier of the user in Azure AD B2C
-    const { sub } = await validateToken(value, process.env["placeholder"]);
+    const { sub } = await validateToken(value, process.env["APPLICATION_ID_DELETE_FILE"]);
 
     context.log("JWT token is valid");
 
