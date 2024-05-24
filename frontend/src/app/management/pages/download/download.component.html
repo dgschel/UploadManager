@@ -5,6 +5,7 @@
     <app-loading [isLoading]="isLoading()">
       <app-download-list
         [prefixedBlobs]="filteredPrefixedBlobs()"
+        (removeBlob)="removeBlob($event)"
       ></app-download-list>
     </app-loading>
     <ul class="flex flex-col gap-2 px-2 text-sm text-prussian-blue/70">
