@@ -2,7 +2,10 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit, computed, signal } from '@angular/core';
 
 import { DownloadListComponent } from '../../components/download-list/download-list.component';
-import { PrefixedBlobProperties } from '../../../shared/models/blob';
+import {
+  CustomBlobProperties,
+  PrefixedBlobProperties,
+} from '../../../shared/models/blob';
 import { environment } from '../../../../environments/environment';
 import { LoadingComponent } from '../../../shared/components/loading/loading.component';
 import { HttpResultWrapper } from '../../../shared/models/http';
@@ -393,6 +396,20 @@ export class DownloadComponent implements OnInit {
     //   next: (data) => this.handleFetchSuccess(data),
     //   error: (e) => this.handleFetchError(e),
     // });
+  }
+
+  removeBlob(blob: CustomBlobProperties): void {
+    console.log('Delete Blob: ', blob);
+    this.removeBlobFromPrefixedBlobs(blob);
+  }
+
+  private removeBlobFromPrefixedBlobs(blob: CustomBlobProperties) {
+    this.prefixedBlobs.update((prefixedBlobs) => {
+      return prefixedBlobs.map((prefixedBlob) => ({
+        ...prefixedBlob,
+        blobs: prefixedBlob.blobs.filter((b) => b.name !== blob.name),
+      }));
+    });
   }
 
   onSearchUpdated(query: string): void {
