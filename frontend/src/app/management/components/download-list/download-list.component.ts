@@ -7,6 +7,7 @@ import {
   computed,
   createComponent,
   input,
+  output,
 } from '@angular/core';
 
 import {
@@ -16,6 +17,7 @@ import {
 
 import {
   AllowedContentType,
+  CustomBlobProperties,
   PrefixedBlobProperties,
 } from '../../../shared/models/blob';
 import {
@@ -37,6 +39,7 @@ import { ConfirmationModalComponent } from '../../../shared/templates/confirmati
 export class DownloadListComponent implements AfterViewInit {
   prefixedBlobs = input.required<PrefixedBlobProperties[]>();
   blobs = computed(() => this.prefixedBlobs().flatMap((data) => data.blobs));
+  removeBlob = output<CustomBlobProperties>();
 
   @ViewChild('pager') pager: DataTablePagerComponent | undefined;
 
@@ -49,8 +52,8 @@ export class DownloadListComponent implements AfterViewInit {
     this.pager?.selectPage(1);
   }
 
-  deleteBlob = (blob: PrefixedBlobProperties) => {
-    console.log('Deleting blob...', blob);
+  deleteBlob = (blob: CustomBlobProperties) => {
+    this.removeBlob.emit(blob);
 
     const comp = createComponent(ConfirmationModalComponent, {
       environmentInjector: this.injector,
