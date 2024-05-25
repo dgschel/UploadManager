@@ -23,7 +23,10 @@ import {
   removeFileExtension,
 } from '../../../utils/file';
 import { formatDate } from '../../../utils/date';
-import { filterPrefixedBlobsByBlobName } from '../../../utils/filter';
+import {
+  filterPrefixedBlobsByBlobName,
+  findPrefixedBlobByBlobName,
+} from '../../../utils/filter';
 
 @Component({
   selector: 'app-download-list',
@@ -49,19 +52,12 @@ export class DownloadListComponent implements AfterViewInit {
       blob.name
     );
 
-    console.log(filteredPrefixedBlobs);
-
-    const prefixedBlob = filteredPrefixedBlobs.reduce(
-      (acc, curr) => ({
-        prefix: curr.prefix,
-        blob: curr.blobs.find((b) => b.name === blob.name),
-      }),
-      {}
+    const prefixedBlob = findPrefixedBlobByBlobName(
+      filteredPrefixedBlobs,
+      blob.name
     );
 
-    console.log(prefixedBlob);
-
-    // this.removeBlob.emit(blob.name);
+    this.removeBlob.emit(prefixedBlob.prefix + blob.name);
   };
 
   getRowClass = () => 'transition-all duration-200 hover:bg-gray-100';
