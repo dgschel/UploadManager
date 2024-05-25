@@ -15,6 +15,7 @@ import {
 import {
   AllowedContentType,
   CustomBlobProperties,
+  PrefixedBlob,
   PrefixedBlobProperties,
 } from '../../../shared/models/blob';
 import {
@@ -38,7 +39,7 @@ import {
 export class DownloadListComponent implements AfterViewInit {
   prefixedBlobs = input.required<PrefixedBlobProperties[]>();
   blobs = computed(() => this.prefixedBlobs().flatMap((data) => data.blobs));
-  removeBlob = output<string>();
+  removeBlob = output<PrefixedBlob>();
 
   @ViewChild('pager') pager: DataTablePagerComponent | undefined;
 
@@ -52,12 +53,12 @@ export class DownloadListComponent implements AfterViewInit {
       blob.name
     );
 
-    const prefixedBlob = findPrefixedBlobByBlobName(
+    const prefixedBlob: PrefixedBlob = findPrefixedBlobByBlobName(
       filteredPrefixedBlobs,
       blob.name
     );
 
-    this.removeBlob.emit(prefixedBlob.prefix + blob.name);
+    this.removeBlob.emit(prefixedBlob);
   };
 
   getRowClass = () => 'transition-all duration-200 hover:bg-gray-100';
