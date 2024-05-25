@@ -43,3 +43,21 @@ export const filterPrefixedBlobsByBlobName = (
     })
     .filter((prefixedBlob) => prefixedBlob.blobs.length > 0);
 };
+
+/**
+ * Find a prefixed blob with the specified blob name
+ * @param prefixedBlobs pass the array of prefixed blobs to search
+ * @param blobName pass the blob name to search for
+ * @returns the prefixed blob with the specified blob name, if found
+ */
+export const findPrefixedBlobByBlobName = (
+  prefixedBlobs: PrefixedBlobProperties[],
+  blobName: string
+) =>
+  prefixedBlobs.reduce(
+    (_, curr) => ({
+      prefix: curr.prefix,
+      blob: curr.blobs.find((b) => b.name === blobName),
+    }),
+    {} as { prefix: string; blob: CustomBlobProperties | undefined }
+  );
