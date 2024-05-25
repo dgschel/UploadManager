@@ -39,5 +39,5 @@ export const filterPrefixedBlobsByBlobName = (
       prefix: prefixedBlob.prefix,
       blobs,
     };
-  });
+  }).filter((prefixedBlob) => prefixedBlob.blobs.length > 0);
 };
