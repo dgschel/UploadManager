@@ -1,4 +1,7 @@
-import { CustomBlobProperties } from '../shared/models/blob';
+import {
+  CustomBlobProperties,
+  PrefixedBlobProperties,
+} from '../shared/models/blob';
 import { formatDate } from './date';
 
 /**
@@ -20,5 +23,21 @@ export const filterItemsBySearchQuery = <
       item.contentType.toLowerCase().includes(searchQueryLowerCase) ||
       formatDate(item.createdOn).toLowerCase().includes(searchQueryLowerCase)
     );
+  });
+};
+
+// Return a new array of prefixed blobs that contain blobs with the specified blob name
+export const filterPrefixedBlobsByBlobName = (
+  prefixedBlobs: PrefixedBlobProperties[],
+  blobName: string
+): PrefixedBlobProperties[] => {
+  return prefixedBlobs.map((prefixedBlob) => {
+    const blobs = prefixedBlob.blobs.filter((blob) =>
+      blob.name.includes(blobName)
+    );
+    return {
+      prefix: prefixedBlob.prefix,
+      blobs,
+    };
   });
 };
