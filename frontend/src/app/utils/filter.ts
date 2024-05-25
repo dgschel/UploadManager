@@ -31,13 +31,15 @@ export const filterPrefixedBlobsByBlobName = (
   prefixedBlobs: PrefixedBlobProperties[],
   blobName: string
 ): PrefixedBlobProperties[] => {
-  return prefixedBlobs.map((prefixedBlob) => {
-    const blobs = prefixedBlob.blobs.filter((blob) =>
-      blob.name.includes(blobName)
-    );
-    return {
-      prefix: prefixedBlob.prefix,
-      blobs,
-    };
-  }).filter((prefixedBlob) => prefixedBlob.blobs.length > 0);
+  return prefixedBlobs
+    .map((prefixedBlob) => {
+      const blobs = prefixedBlob.blobs.filter((blob) =>
+        blob.name.includes(blobName)
+      );
+      return {
+        prefix: prefixedBlob.prefix,
+        blobs,
+      };
+    })
+    .filter((prefixedBlob) => prefixedBlob.blobs.length > 0);
 };
