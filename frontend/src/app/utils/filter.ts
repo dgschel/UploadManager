@@ -1,5 +1,6 @@
 import {
   CustomBlobProperties,
+  PrefixedBlob,
   PrefixedBlobProperties,
 } from '../shared/models/blob';
 import { formatDate } from './date';
@@ -44,6 +45,16 @@ export const filterPrefixedBlobsByBlobName = (
     .filter((prefixedBlob) => prefixedBlob.blobs.length > 0);
 };
 
+// Remove a blob from the prefixed blobs
+export const removeBlobFromPrefixedBlobs = (
+  prefixedBlobs: PrefixedBlobProperties[],
+  blobName: string
+): PrefixedBlobProperties[] =>
+  prefixedBlobs.map((prefixedBlob) => ({
+    ...prefixedBlob,
+    blobs: prefixedBlob.blobs.filter((b) => b.name !== blobName),
+  }));
+
 /**
  * Find a prefixed blob with the specified blob name
  * @param prefixedBlobs pass the array of prefixed blobs to search
@@ -57,7 +68,7 @@ export const findPrefixedBlobByBlobName = (
   prefixedBlobs.reduce(
     (_, curr) => ({
       prefix: curr.prefix,
-      blob: curr.blobs.find((b) => b.name === blobName),
+      blob: curr.blobs.find((b) => b.name === blobName) as CustomBlobProperties,
     }),
-    {} as { prefix: string; blob: CustomBlobProperties | undefined }
+    {} as PrefixedBlob
   );
