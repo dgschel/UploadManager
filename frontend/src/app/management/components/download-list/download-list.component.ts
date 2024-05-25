@@ -39,6 +39,7 @@ import {
 export class DownloadListComponent implements AfterViewInit {
   prefixedBlobs = input.required<PrefixedBlobProperties[]>();
   blobs = computed(() => this.prefixedBlobs().flatMap((data) => data.blobs));
+  maxPageSize = computed(() => Math.ceil(this.blobs().length / 10));
   removeBlob = output<PrefixedBlob>();
 
   @ViewChild('pager') pager: DataTablePagerComponent | undefined;
