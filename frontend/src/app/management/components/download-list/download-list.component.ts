@@ -23,6 +23,7 @@ import {
   removeFileExtension,
 } from '../../../utils/file';
 import { formatDate } from '../../../utils/date';
+import { filterPrefixedBlobsByBlobName } from '../../../utils/filter';
 
 @Component({
   selector: 'app-download-list',
@@ -34,7 +35,7 @@ import { formatDate } from '../../../utils/date';
 export class DownloadListComponent implements AfterViewInit {
   prefixedBlobs = input.required<PrefixedBlobProperties[]>();
   blobs = computed(() => this.prefixedBlobs().flatMap((data) => data.blobs));
-  removeBlob = output<CustomBlobProperties>();
+  removeBlob = output<string>();
 
   @ViewChild('pager') pager: DataTablePagerComponent | undefined;
 
@@ -42,7 +43,26 @@ export class DownloadListComponent implements AfterViewInit {
     this.pager?.selectPage(1);
   }
 
-  deleteBlob = (blob: CustomBlobProperties) => this.removeBlob.emit(blob); // TODO: pass blob to confirmation modal. Use blob.name as filename
+  deleteBlob = (blob: CustomBlobProperties) => {
+    const filteredPrefixedBlobs = filterPrefixedBlobsByBlobName(
+      this.prefixedBlobs(),
+      blob.name
+    );
+
+    console.log(filteredPrefixedBlobs);
+
+    const prefixedBlob = filteredPrefixedBlobs.reduce(
+      (acc, curr) => ({
+        prefix: curr.prefix,
+        blob: curr.blobs.find((b) => b.name === blob.name),
+      }),
+      {}
+    );
+
+    console.log(prefixedBlob);
+
+    // this.removeBlob.emit(blob.name);
+  };
 
   getRowClass = () => 'transition-all duration-200 hover:bg-gray-100';
 
