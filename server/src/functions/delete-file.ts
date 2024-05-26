@@ -1,5 +1,6 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
 import { validateToken } from "../utils/validate-jwt-token.js";
+import { AzureFileDelete } from "../services/azure-file-delete.js";
 
 export async function deleteFile(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
   context.log(`Http function processed request for url "${request.url}"`);
@@ -19,6 +20,8 @@ export async function deleteFile(request: HttpRequest, context: InvocationContex
 
     context.log("JWT token is valid");
 
+    const azureFileDelete = new AzureFileDelete(sub, context);
+
     return { jsonBody: { message: `placeholder` } };
   } catch (error) {
     context.error(`Failed to delete file in Azure: ${error.message}`);
@@ -27,7 +30,7 @@ export async function deleteFile(request: HttpRequest, context: InvocationContex
 }
 
 app.http("delete-file", {
-  methods: ["GET", "POST"],
+  methods: ["DELETE"],
   authLevel: "anonymous",
   handler: deleteFile,
 });

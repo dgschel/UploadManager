@@ -1,13 +1,30 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component, OnInit, computed, signal } from '@angular/core';
+import {
+  Component,
+  EnvironmentInjector,
+  OnInit,
+  TemplateRef,
+  computed,
+  createComponent,
+  signal,
+} from '@angular/core';
 
 import { DownloadListComponent } from '../../components/download-list/download-list.component';
-import { PrefixedBlobProperties } from '../../../shared/models/blob';
+import {
+  CustomBlobProperties,
+  PrefixedBlob,
+  PrefixedBlobProperties,
+} from '../../../shared/models/blob';
 import { environment } from '../../../../environments/environment';
 import { LoadingComponent } from '../../../shared/components/loading/loading.component';
 import { HttpResultWrapper } from '../../../shared/models/http';
-import { filterItemsBySearchQuery } from '../../../utils/filter';
+import {
+  filterItemsBySearchQuery,
+  removeBlobFromPrefixedBlobs,
+} from '../../../utils/filter';
 import { SearchComponent } from '../../components/search/search.component';
+import { ConfirmationModalComponent } from '../../../shared/templates/confirmation-modal/confirmation-modal.component';
+import { ModalService } from '../../../shared/services/modal.service';
 
 @Component({
   selector: 'app-download',
@@ -385,14 +402,64 @@ export class DownloadComponent implements OnInit {
     });
   });
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private modalService: ModalService,
+    private injector: EnvironmentInjector
+  ) {}
 
   ngOnInit(): void {
-    // this.isLoading.set(true);
-    // this.getBlobs().subscribe({
-    //   next: (data) => this.handleFetchSuccess(data),
-    //   error: (e) => this.handleFetchError(e),
-    // });
+    this.isLoading.set(true);
+    this.getBlobs().subscribe({
+      next: (data) => this.handleFetchSuccess(data),
+      error: (e) => this.handleFetchError(e),
+    });
+  }
+
+  removeBlob(prefixedBlob: PrefixedBlob): void {
+    console.log(prefixedBlob);
+    this.openConfirmationModal(prefixedBlob);
+  }
+
+  updatePrefixedBlobs(blob: CustomBlobProperties) {
+    const prefixedBlobs = removeBlobFromPrefixedBlobs(
+      this.prefixedBlobs(),
+      blob.name
+    );
+    this.prefixedBlobs.set(prefixedBlobs);
+  }
+
+  openConfirmationModal(prefixedBlob: PrefixedBlob): void {
+    const comp = createComponent(ConfirmationModalComponent, {
+      environmentInjector: this.injector,
+    });
+
+    comp.instance.submit$.subscribe({
+      next: (message: string) => {
+        // TODO: replace message with filename. Call function to filter out
+        console.log('Submitted modal', message);
+        this.updatePrefixedBlobs(prefixedBlob.blob); // TODO: call this function after succesful http response from azure function
+        this.modalService.close();
+      },
+    });
+
+    comp.instance.onClose.subscribe({
+      next: () => {
+        console.log('Closed modal');
+        this.modalService.close();
+      },
+    });
+
+    const modalRef = this.modalService.open(
+      comp.instance.containerTemplate as TemplateRef<any>
+    );
+
+    comp.instance.start$.subscribe({
+      next: (isLoading: boolean) => {
+        console.log('Loading...', isLoading);
+        modalRef.instance.isLoading.set(isLoading);
+      },
+    });
   }
 
   onSearchUpdated(query: string): void {

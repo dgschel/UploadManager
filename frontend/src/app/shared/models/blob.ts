@@ -14,3 +14,8 @@ export type PrefixedBlobProperties = {
   prefix: string;
   blobs: CustomBlobProperties[];
 };
+
+export type PrefixedBlob = {
+  prefix: string;
+  blob: CustomBlobProperties
+}

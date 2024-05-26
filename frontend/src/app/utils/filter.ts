@@ -1,4 +1,8 @@
-import { CustomBlobProperties } from '../shared/models/blob';
+import {
+  CustomBlobProperties,
+  PrefixedBlob,
+  PrefixedBlobProperties,
+} from '../shared/models/blob';
 import { formatDate } from './date';
 
 /**
@@ -22,3 +26,49 @@ export const filterItemsBySearchQuery = <
     );
   });
 };
+
+// Return a new array of prefixed blobs that contain blobs with the specified blob name
+export const filterPrefixedBlobsByBlobName = (
+  prefixedBlobs: PrefixedBlobProperties[],
+  blobName: string
+): PrefixedBlobProperties[] => {
+  return prefixedBlobs
+    .map((prefixedBlob) => {
+      const blobs = prefixedBlob.blobs.filter((blob) =>
+        blob.name.includes(blobName)
+      );
+      return {
+        prefix: prefixedBlob.prefix,
+        blobs,
+      };
+    })
+    .filter((prefixedBlob) => prefixedBlob.blobs.length > 0);
+};
+
+// Remove a blob from the prefixed blobs
+export const removeBlobFromPrefixedBlobs = (
+  prefixedBlobs: PrefixedBlobProperties[],
+  blobName: string
+): PrefixedBlobProperties[] =>
+  prefixedBlobs.map((prefixedBlob) => ({
+    ...prefixedBlob,
+    blobs: prefixedBlob.blobs.filter((b) => b.name !== blobName),
+  }));
+
+/**
+ * Find a prefixed blob with the specified blob name
+ * @param prefixedBlobs pass the array of prefixed blobs to search
+ * @param blobName pass the blob name to search for
+ * @returns the prefixed blob with the specified blob name, if found
+ */
+export const findPrefixedBlobByBlobName = (
+  prefixedBlobs: PrefixedBlobProperties[],
+  blobName: string
+) =>
+  prefixedBlobs.reduce(
+    (_, curr) => ({
+      prefix: curr.prefix,
+      blob: curr.blobs.find((b) => b.name === blobName) as CustomBlobProperties,
+    }),
+    {} as PrefixedBlob
+  );

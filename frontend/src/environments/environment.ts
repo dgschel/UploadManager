@@ -14,5 +14,7 @@ export const environment = {
       'https://func-uploadmanager-prod-001.azurewebsites.net/api/upload-files',
     fileDownload:
       'https://func-uploadmanager-prod-001.azurewebsites.net/api/download-files',
+    fileDelete:
+      'https://func-uploadmanager-prod-001.azurewebsites.net/api/delete-file',
   },
 };

@@ -1,12 +1,10 @@
 import {
   AfterViewInit,
   Component,
-  EnvironmentInjector,
-  TemplateRef,
   ViewChild,
   computed,
-  createComponent,
   input,
+  output,
 } from '@angular/core';
 
 import {
@@ -16,6 +14,8 @@ import {
 
 import {
   AllowedContentType,
+  CustomBlobProperties,
+  PrefixedBlob,
   PrefixedBlobProperties,
 } from '../../../shared/models/blob';
 import {
@@ -24,8 +24,10 @@ import {
   removeFileExtension,
 } from '../../../utils/file';
 import { formatDate } from '../../../utils/date';
-import { ModalService } from '../../../shared/services/modal.service';
-import { ConfirmationModalComponent } from '../../../shared/templates/confirmation-modal/confirmation-modal.component';
+import {
+  filterPrefixedBlobsByBlobName,
+  findPrefixedBlobByBlobName,
+} from '../../../utils/filter';
 
 @Component({
   selector: 'app-download-list',
@@ -37,49 +39,27 @@ import { ConfirmationModalComponent } from '../../../shared/templates/confirmati
 export class DownloadListComponent implements AfterViewInit {
   prefixedBlobs = input.required<PrefixedBlobProperties[]>();
   blobs = computed(() => this.prefixedBlobs().flatMap((data) => data.blobs));
+  maxPageSize = computed(() => Math.ceil(this.blobs().length / 10));
+  removeBlob = output<PrefixedBlob>();
 
   @ViewChild('pager') pager: DataTablePagerComponent | undefined;
-
-  constructor(
-    private modalService: ModalService,
-    private injector: EnvironmentInjector
-  ) {}
 
   ngAfterViewInit(): void {
     this.pager?.selectPage(1);
   }
 
-  deleteBlob = (blob: PrefixedBlobProperties) => {
-    console.log('Deleting blob...', blob);
-
-    const comp = createComponent(ConfirmationModalComponent, {
-      environmentInjector: this.injector,
-    });
-
-    comp.instance.submit$.subscribe({
-      next: (message: string) => {
-        console.log('Submitted modal', message);
-        this.modalService.close();
-      },
-    });
-
-    comp.instance.onClose.subscribe({
-      next: () => {
-        console.log('Closed modal');
-        this.modalService.close();
-      },
-    });
-
-    const modalRef = this.modalService.open(
-      comp.instance.containerTemplate as TemplateRef<any>
+  deleteBlob = (blob: CustomBlobProperties) => {
+    const filteredPrefixedBlobs = filterPrefixedBlobsByBlobName(
+      this.prefixedBlobs(),
+      blob.name
     );
 
-    comp.instance.start$.subscribe({
-      next: (isLoading: boolean) => {
-        console.log('Loading...', isLoading);
-        modalRef.instance.isLoading.set(isLoading);
-      },
-    });
+    const prefixedBlob: PrefixedBlob = findPrefixedBlobByBlobName(
+      filteredPrefixedBlobs,
+      blob.name
+    );
+
+    this.removeBlob.emit(prefixedBlob);
   };
 
   getRowClass = () => 'transition-all duration-200 hover:bg-gray-100';
