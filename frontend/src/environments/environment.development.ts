@@ -11,5 +11,6 @@ export const environment = {
   endpoints: {
     fileUpload: 'http://localhost:7071/api/upload-files',
     fileDownload: 'http://localhost:7071/api/download-files',
+    fileDelete: 'http://localhost:7071/api/delete-file',
   },
 };
