@@ -84,6 +84,15 @@ export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
     },
   ]);
 
+  protectedResourceMap.set(environment.endpoints.fileDelete, [
+    {
+      httpMethod: 'DELETE',
+      scopes: [
+        'https://uploadmanager.onmicrosoft.com/api/delete-file/File.Delete',
+      ],
+    },
+  ]);
+
   return {
     interactionType: InteractionType.Redirect,
     protectedResourceMap,
