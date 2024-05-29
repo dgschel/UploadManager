@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
