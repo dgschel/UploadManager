@@ -30,7 +30,7 @@ export async function deleteFile(request: HttpRequest, context: InvocationContex
     }
 
     context.log(`File ${fileName} deleted successfully`);
-    return { jsonBody: { message: `File ${fileName} deleted successfully`, status: 200 } };
+    return { jsonBody: { message: fileName, status: 200 } };
   } catch (error) {
     context.error(`Failed to delete file in Azure: ${error.message}`);
     return { jsonBody: { message: error.message }, status: 500 };
