@@ -434,6 +434,8 @@ export class DownloadComponent implements OnInit {
       environmentInjector: this.injector,
     });
 
+    comp.setInput('fileName', prefixedBlob.prefix + prefixedBlob.blob.name);
+
     comp.instance.submit$.subscribe({
       next: (message: string) => {
         // TODO: replace message with filename. Call function to filter out
@@ -446,7 +448,9 @@ export class DownloadComponent implements OnInit {
     comp.instance.error$.subscribe({
       next: (err) => {
         console.error('Error: ', err);
-        alert(err);
+        alert(
+          'Beim Löschen der Datei ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut'
+        );
         this.modalService.close();
       },
     });
