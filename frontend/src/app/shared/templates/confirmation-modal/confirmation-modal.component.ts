@@ -38,10 +38,11 @@ export class ConfirmationModalComponent {
   constructor(private http: HttpClient) {}
 
   protected submit(): void {
+    this.startSubject.next(true);
+
     this.http
       .delete(`${environment.endpoints.fileDelete}?filename=${this.fileName}`)
       .pipe(
-        tap(() => this.startSubject.next(true)),
         catchError((err) => throwError(() => err)) // Pass the error to the next observer
       )
       .subscribe({
