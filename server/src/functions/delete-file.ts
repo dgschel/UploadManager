@@ -6,7 +6,7 @@ export async function deleteFile(request: HttpRequest, context: InvocationContex
   context.log(`Http function processed request for url "${request.url}"`);
 
   const token = request.headers.get("Authorization");
-  const fileName = request.query.get("fileName");
+  const fileName = request.query.get("filename");
 
   if (!token) {
     return { jsonBody: { message: "Missing JWT token" } };
