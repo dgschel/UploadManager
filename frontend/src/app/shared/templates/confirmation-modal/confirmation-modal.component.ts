@@ -39,17 +39,14 @@ export class ConfirmationModalComponent {
 
   protected submit(): void {
     this.http
-      .delete(`${environment.endpoints.fileDelete}/${this.fileName}`)
+      .delete(`${environment.endpoints.fileDelete}?filename=${this.fileName}`)
       .pipe(
         tap(() => this.startSubject.next(true)),
         catchError((err) => throwError(() => err)) // Pass the error to the next observer
       )
       .subscribe({
         next: (res) => console.log('File deleted!', res),
-        error: (err) => {
-          console.error('Error deleting file', err.message);
-          this.errorSubject.next(err.message);
-        },
+        error: (err) => this.errorSubject.next(err.message),
         complete: () => this.startSubject.next(false),
       });
   }
