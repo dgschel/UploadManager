@@ -443,6 +443,14 @@ export class DownloadComponent implements OnInit {
       },
     });
 
+    comp.instance.error$.subscribe({
+      next: (err) => {
+        console.error('Error: ', err);
+        alert(err);
+        this.modalService.close();
+      },
+    });
+
     comp.instance.onClose.subscribe({
       next: () => {
         console.log('Closed modal');
