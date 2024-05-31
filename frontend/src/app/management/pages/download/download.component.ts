@@ -434,11 +434,22 @@ export class DownloadComponent implements OnInit {
       environmentInjector: this.injector,
     });
 
+    comp.setInput('fileName', prefixedBlob.prefix + prefixedBlob.blob.name);
+
     comp.instance.submit$.subscribe({
-      next: (message: string) => {
-        // TODO: replace message with filename. Call function to filter out
-        console.log('Submitted modal', message);
-        this.updatePrefixedBlobs(prefixedBlob.blob); // TODO: call this function after succesful http response from azure function
+      next: (result: HttpResultWrapper<string>) => {
+        alert(`Datei erfolgreich gelöscht ${result.message}`);
+        this.updatePrefixedBlobs(prefixedBlob.blob);
+        this.modalService.close();
+      },
+    });
+
+    comp.instance.error$.subscribe({
+      next: (err) => {
+        console.error('Error: ', err);
+        alert(
+          'Beim Löschen der Datei ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut'
+        );
         this.modalService.close();
       },
     });

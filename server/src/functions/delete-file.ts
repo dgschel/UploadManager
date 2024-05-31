@@ -6,7 +6,7 @@ export async function deleteFile(request: HttpRequest, context: InvocationContex
   context.log(`Http function processed request for url "${request.url}"`);
 
   const token = request.headers.get("Authorization");
-  const fileName = request.query.get("fileName");
+  const fileName = request.query.get("filename");
 
   if (!token) {
     return { jsonBody: { message: "Missing JWT token" } };
@@ -30,7 +30,7 @@ export async function deleteFile(request: HttpRequest, context: InvocationContex
     }
 
     context.log(`File ${fileName} deleted successfully`);
-    return { jsonBody: { message: `File ${fileName} deleted successfully`, status: 200 } };
+    return { jsonBody: { message: fileName, status: 200 } };
   } catch (error) {
     context.error(`Failed to delete file in Azure: ${error.message}`);
     return { jsonBody: { message: error.message }, status: 500 };
