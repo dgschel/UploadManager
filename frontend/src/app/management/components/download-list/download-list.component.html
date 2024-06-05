@@ -83,7 +83,7 @@
 
     <ngx-datatable-column
       prop="name"
-      [flexGrow]="1"
+      [flexGrow]="calculateFlexGrow()"
       [headerClass]="'font-semibold'"
       [draggable]="false"
       [resizeable]="false"
@@ -166,7 +166,7 @@
       prop="createdOn"
       [draggable]="false"
       [resizeable]="false"
-      [flexGrow]="1"
+      [flexGrow]="0.75"
       [headerClass]="'font-semibold'"
     >
       <ng-template
