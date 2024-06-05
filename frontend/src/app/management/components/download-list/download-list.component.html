@@ -28,6 +28,28 @@
         </div>
       </ng-template>
     </ngx-datatable-row-detail>
+
+    <!-- Column Template for Mobile -->
+    <ngx-datatable-column
+      [width]="48"
+      [resizeable]="false"
+      [sortable]="false"
+      [draggable]="false"
+      [canAutoResize]="false"
+    >
+      <ng-template
+        let-row="row"
+        let-expanded="expanded"
+        ngx-datatable-cell-template
+      >
+        <div class="flex h-full px-4">
+          <button (click)="toggleExpandRow(row)" class="md:hidden">
+            {{ expanded ? "▼" : "▶" }}
+          </button>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+
     <ngx-datatable-column
       prop="name"
       [flexGrow]="1.5"
