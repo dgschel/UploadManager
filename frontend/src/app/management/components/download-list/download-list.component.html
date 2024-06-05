@@ -42,7 +42,7 @@
         let-expanded="expanded"
         ngx-datatable-cell-template
       >
-        <div class="flex h-full px-4">
+        <div class="md:hidden flex h-full px-4">
           <button (click)="toggleExpandRow(row)" class="md:hidden">
             @if (expanded) {
             <svg
@@ -83,7 +83,7 @@
 
     <ngx-datatable-column
       prop="name"
-      [flexGrow]="1.5"
+      [flexGrow]="1"
       [headerClass]="'font-semibold'"
       [draggable]="false"
       [resizeable]="false"
@@ -101,10 +101,7 @@
         </div>
       </ng-template>
       <ng-template let-value="row" ngx-datatable-cell-template>
-        <div
-          (click)="toggleExpandRow(value)"
-          class="flex items-center px-4 max-w-64 overflow-hidden h-[48px]"
-        >
+        <div class="flex items-center px-4 max-w-64 overflow-hidden h-[48px]">
           {{ getFormattedName(value.name) }}
         </div>
       </ng-template>
@@ -260,7 +257,7 @@
         let-offset="offset"
       >
         <div
-          class="flex flex-wrap gap-2 place-content-center md:justify-between items-center w-full h-full px-4 py-2 text-sm"
+          class="flex flex-wrap gap-2 place-content-center md:justify-between md:ml-8 items-center w-full h-full px-4 py-2 text-sm"
         >
           <div class="flex gap-2">
             <span> {{ curPage }} von {{ maxPageSize() }} </span>
