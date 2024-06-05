@@ -8,7 +8,9 @@ import {
 } from '@angular/core';
 
 import {
+  DataTableBodyRowComponent,
   DataTablePagerComponent,
+  DatatableComponent,
   NgxDatatableModule,
 } from '@swimlane/ngx-datatable';
 
@@ -28,6 +30,7 @@ import {
   filterPrefixedBlobsByBlobName,
   findPrefixedBlobByBlobName,
 } from '../../../utils/filter';
+import { NgxDatatableRowDetail } from '../../../shared/models/datatable';
 
 @Component({
   selector: 'app-download-list',
@@ -42,6 +45,7 @@ export class DownloadListComponent implements AfterViewInit {
   maxPageSize = computed(() => Math.ceil(this.blobs().length / 10));
   removeBlob = output<PrefixedBlob>();
 
+  @ViewChild('table') table: DatatableComponent | undefined;
   @ViewChild('pager') pager: DataTablePagerComponent | undefined;
 
   ngAfterViewInit(): void {
@@ -60,6 +64,14 @@ export class DownloadListComponent implements AfterViewInit {
     );
 
     this.removeBlob.emit(prefixedBlob);
+  };
+
+  toggleExpandRow = (row: CustomBlobProperties) => {
+    this.table?.rowDetail.toggleExpandRow(row);
+  };
+
+  onDetailToggle = ($event: NgxDatatableRowDetail) => {
+    console.log('Detail Toggled', $event);
   };
 
   getRowClass = () => 'transition-all duration-200 hover:bg-gray-100';
