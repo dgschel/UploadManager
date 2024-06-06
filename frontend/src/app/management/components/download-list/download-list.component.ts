@@ -51,6 +51,9 @@ export class DownloadListComponent implements AfterViewInit {
   // if the viewport is less than 768px, the flexGrow value is 10, otherwise it is 1
   calculateFlexGrow = (): number => (window.innerWidth < 768 ? 10 : 1);
 
+  // if the viewport is less than 768px, the height of the footer is 72px, otherwise it is 48px
+  calculateFooterHeight = (): number => (window.innerWidth < 768 ? 72 : 48);
+
   ngAfterViewInit(): void {
     this.pager?.selectPage(1);
   }
