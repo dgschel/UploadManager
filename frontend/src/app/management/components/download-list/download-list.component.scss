@@ -3,6 +3,10 @@
   align-items: center;
 }
 
+:host ::ng-deep .datatable-body-cell-label {
+  height: inherit;
+}
+
 :host ::ng-deep .datatable-body {
   min-height: 500px;
 }

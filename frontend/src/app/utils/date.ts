@@ -3,9 +3,9 @@ export const formatDate = (dateAsString: string | Date): string => {
   const date = new Date(dateAsString); // Always convert to date
 
   const options: Intl.DateTimeFormatOptions = {
-    weekday: 'long',
+    weekday: 'short',
     year: 'numeric',
-    month: 'long',
+    month: 'short',
     day: 'numeric',
   };
 
