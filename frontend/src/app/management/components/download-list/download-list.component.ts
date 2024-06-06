@@ -48,6 +48,9 @@ export class DownloadListComponent implements AfterViewInit {
   @ViewChild('table') table: DatatableComponent | undefined;
   @ViewChild('pager') pager: DataTablePagerComponent | undefined;
 
+  // if the viewport is less than 768px, the flexGrow value is 10, otherwise it is 1
+  calculateFlexGrow = (): number => (window.innerWidth < 768 ? 10 : 1);
+
   ngAfterViewInit(): void {
     this.pager?.selectPage(1);
   }
@@ -66,13 +69,11 @@ export class DownloadListComponent implements AfterViewInit {
     this.removeBlob.emit(prefixedBlob);
   };
 
-  toggleExpandRow = (row: CustomBlobProperties) => {
+  toggleExpandRow = (row: CustomBlobProperties) =>
     this.table?.rowDetail.toggleExpandRow(row);
-  };
 
-  onDetailToggle = ($event: NgxDatatableRowDetail) => {
+  onDetailToggle = ($event: NgxDatatableRowDetail) =>
     console.log('Detail Toggled', $event);
-  };
 
   getRowClass = () => 'transition-all duration-200 hover:bg-gray-100';
 
