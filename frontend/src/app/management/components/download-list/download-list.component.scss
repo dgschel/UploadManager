@@ -7,10 +7,6 @@
   height: inherit;
 }
 
-:host ::ng-deep .datatable-body {
-  min-height: 500px;
-}
-
 :host ::ng-deep .sort-btn {
   margin-left: -0.5rem;
 }
